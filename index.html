@@ -377,7 +377,7 @@ video.back-cam{transform:scaleX(1)}
 }
 
 /* ========================================================
-   Industrial Object Counter
+   Industrial Object Counter (Industrial Control Panel Style)
    ======================================================== */
 .counter-card{
   padding: clamp(8px, 1.2vh, 12px) 14px;
@@ -419,7 +419,7 @@ video.back-cam{transform:scaleX(1)}
   min-height: 0;
 }
 
-/* 3 กล่องด้านบน */
+/* 3 กล่องด้านบนสไตล์ Industrial Control Panel */
 .top-three-boxes {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -428,31 +428,43 @@ video.back-cam{transform:scaleX(1)}
   min-height: 0;
 }
 
-.c-box-1 { background-color: #10b981; border: 2px solid #059669; }
-.c-box-2 { background-color: #fbbf24; border: 2px solid #f59e0b; }
-.c-box-3 { background-color: #f87171; border: 2px solid #ef4444; }
-
 .custom-sub-box {
   container-type: inline-size;
+  background-color: var(--c-box-bg);
+  border: 1px solid var(--c-box-border);
   border-radius: 8px;
-  padding: clamp(2px, 0.8vh, 6px);
+  padding: clamp(2px, 0.8vh, 6px) clamp(4px, 1vw, 8px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: #ffffff;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
   min-width: 0;
   overflow: hidden;
+  position: relative;
 }
 
+/* เพิ่มแถบสถานะ (Indicator Bar) สีที่ขอบซ้ายของแต่ละกล่องแบบแผงควบคุมโรงงาน */
+.custom-sub-box::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 4px;
+  border-radius: 2px;
+}
+.c-box-1::before { background-color: #10b981; }
+.c-box-2::before { background-color: #fbbf24; }
+.c-box-3::before { background-color: #f87171; }
+
 .custom-sub-label {
-  font-size: clamp(1.5rem, 20cqw, 1.30rem); 
+  font-size: clamp(0.85rem, 14cqw, 1.1rem); 
   font-weight: 400;
+  color: var(--muted);
   letter-spacing: 0.5px;
   margin-bottom: 2px;
-  opacity: 0.98;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -460,10 +472,11 @@ video.back-cam{transform:scaleX(1)}
 }
 
 .custom-sub-val {
-  font-size: clamp(2.2rem, 18cqw, 3.8rem); 
+  font-size: clamp(1.8rem, 32cqw, 2.6rem); 
   font-weight: 400;
+  color: var(--text);
   line-height: 1;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 
 /* กล่อง Total Count ด้านล่าง */
@@ -482,22 +495,34 @@ video.back-cam{transform:scaleX(1)}
   min-height: 0;
   box-shadow: 0 4px 12px rgba(0,0,0,0.04);
   overflow: hidden;
+  position: relative;
+}
+
+.bottom-total-box::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 4px;
+  border-radius: 2px;
+  background-color: var(--green);
 }
 
 .total-title-main {
-  font-size: clamp(1.0rem, 7cqw, 1.4rem); 
+  font-size: clamp(0.95rem, 7cqw, 1.3rem); 
   font-weight: 400;
-  color: var(--c-total-text);
+  color: var(--muted);
   letter-spacing: 1px;
-  line-height: 1;
+  line-height: 1.1;
   text-align: center;
 }
 
 .custom-total-val {
-  font-size: clamp(2.2rem, 18cqw, 3.8rem); 
+  font-size: clamp(2.0rem, 18cqw, 3.4rem); 
   font-weight: 400;
   color: var(--c-total-text);
-  line-height: 1;
+  line-height: 1.1;
   letter-spacing: 2px;
   text-align: center;
 }
@@ -674,14 +699,14 @@ video.back-cam{transform:scaleX(1)}
       </div>
       
       <div class="counter-layout-custom">
-        <!-- 3 กล่องด้านบน (เริ่มต้นแสดงเลข 0 เดี่ยว) -->
+        <!-- 3 กล่องด้านบน (Industrial Control Panel Style) -->
         <div class="top-three-boxes" id="dynamic-class-counters">
           <div class="custom-sub-box c-box-1"><div class="custom-sub-label">--</div><div class="custom-sub-val" id="counter-class-0">0</div></div>
           <div class="custom-sub-box c-box-2"><div class="custom-sub-label">--</div><div class="custom-sub-val" id="counter-class-1">0</div></div>
           <div class="custom-sub-box c-box-3"><div class="custom-sub-label">--</div><div class="custom-sub-val" id="counter-class-2">0</div></div>
         </div>
 
-        <!-- กล่อง Total Count ด้านล่าง (เริ่มต้นแสดงเลข 0 เดี่ยว) -->
+        <!-- กล่อง Total Count ด้านล่าง -->
         <div class="bottom-total-box">
           <div class="total-title-main">TOTAL COUNT</div>
           <div class="custom-total-val" id="total-counter">0</div>
@@ -993,8 +1018,6 @@ function buildCounterUIBoxes() {
   for (let i = 0; i < 3; i++) {
     let className = classNamesList[i] || "--";
     let countVal = (className !== "--") ? (classCounts[className] || 0) : 0;
-    
-    // ถ้าเป็น 0 แสดงตัวเลขเดี่ยว "0", ถ้ามากกว่า 0 แสดงตามจำนวนจริง (รองรับ 2-3 หลักอัตโนมัติ)
     let formattedVal = String(countVal);
 
     let box = document.createElement("div");
@@ -1051,7 +1074,6 @@ async function loop() {
 }
 
 function updateCounterUI() {
-  // รองรับการแสดงผลเลขเดี่ยว "0" หรือขยายเป็น 2-3 หลัก (เช่น 12, 123) เมื่อมีการนับ
   document.getElementById("total-counter").textContent = String(totalCount);
   
   classNamesList.forEach((name, i) => {
