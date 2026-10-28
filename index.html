@@ -36,7 +36,7 @@
   --save-text:#ffffff;
   --danger:#dc2626;
   
-  --c-box-bg: #ffffff;
+  --c-box-bg: rgba(241, 245, 249, 0.85);
   --c-box-border: #cbd5e1;
   --c-total-text: #0f172a;
 }
@@ -66,8 +66,8 @@
   --save-text:#ffffff;
   --danger:#ff6464;
 
-  --c-box-bg: #111827;
-  --c-box-border: #374151;
+  --c-box-bg: rgba(15, 23, 42, 0.85);
+  --c-box-border: #334155;
   --c-total-text: #f5f7fa;
 }
 
@@ -377,7 +377,7 @@ video.back-cam{transform:scaleX(1)}
 }
 
 /* ========================================================
-   Industrial Object Counter (Industrial Control Panel Style)
+   Industrial Object Counter Style
    ======================================================== */
 .counter-card{
   padding: clamp(8px, 1.2vh, 12px) 14px;
@@ -419,7 +419,7 @@ video.back-cam{transform:scaleX(1)}
   min-height: 0;
 }
 
-/* 3 กล่องด้านบนสไตล์ Industrial Control Panel */
+/* 3 กล่องด้านบน */
 .top-three-boxes {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -432,6 +432,8 @@ video.back-cam{transform:scaleX(1)}
   container-type: inline-size;
   background-color: var(--c-box-bg);
   border: 1px solid var(--c-box-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: 8px;
   padding: clamp(2px, 0.8vh, 6px) clamp(4px, 1vw, 8px);
   display: flex;
@@ -439,13 +441,12 @@ video.back-cam{transform:scaleX(1)}
   align-items: center;
   justify-content: center;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
   min-width: 0;
   overflow: hidden;
   position: relative;
 }
 
-/* เพิ่มแถบสถานะ (Indicator Bar) สีที่ขอบซ้ายของแต่ละกล่องแบบแผงควบคุมโรงงาน */
 .custom-sub-box::before {
   content: '';
   position: absolute;
@@ -479,11 +480,13 @@ video.back-cam{transform:scaleX(1)}
   letter-spacing: 1px;
 }
 
-/* กล่อง Total Count ด้านล่าง */
+/* กล่อง Total Count ด้านล่าง (เอาแถบสีเขียวออกเรียบร้อย) */
 .bottom-total-box {
   container-type: inline-size;
   background-color: var(--c-box-bg);
-  border: 2px solid var(--c-box-border);
+  border: 1px solid var(--c-box-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: 10px;
   padding: clamp(4px, 1vh, 8px) 12px;
   display: flex;
@@ -493,20 +496,8 @@ video.back-cam{transform:scaleX(1)}
   gap: 2px;
   flex: 1;
   min-height: 0;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
   overflow: hidden;
-  position: relative;
-}
-
-.bottom-total-box::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 8px;
-  bottom: 8px;
-  width: 4px;
-  border-radius: 2px;
-  background-color: var(--green);
 }
 
 .total-title-main {
