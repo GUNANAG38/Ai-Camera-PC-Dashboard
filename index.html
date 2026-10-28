@@ -1,0 +1,1079 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>AI Camera PC Dashboard - GelectronLAB</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
+
+<style>
+:root{
+  --bg:#ffffff;
+  --bg-gradient:
+    url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 0H0V40' fill='none' stroke='%23000000' stroke-opacity='0.08' stroke-width='1'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 88% 12%, rgba(16, 185, 129, 0.42) 0%, transparent 32%),
+    radial-gradient(circle at 12% 88%, rgba(5, 150, 105, 0.26) 0%, transparent 36%),
+    linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+  background-size: 40px 40px, 100% 100%, 100% 100%, 100% 100%;
+  --card:rgba(255, 255, 255, 0.95);
+  --input:rgba(248, 250, 252, 0.95);
+  --text:#0f172a;
+  --muted:#64748b;
+  --green:#047857;
+  --green-strong:#065f46;
+  --green-soft:#e6fdf5;
+  --border:#cbd5e1;
+  --button:#ffffff;
+  --button-border:#cbd5e1;
+  --button-text:#0f172a;
+  --video-border:#cbd5e1;
+  --shadow:0 12px 32px -5px rgba(4, 120, 87, 0.10), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+  --save-bg:#047857;
+  --save-border:#065f46;
+  --save-text:#ffffff;
+  --danger:#dc2626;
+  
+  --c-box-bg: #ffffff;
+  --c-box-border: #cbd5e1;
+  --c-total-text: #0f172a;
+}
+
+[data-theme="dark"]{
+  --bg:#030508;
+  --bg-gradient:
+    url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 0H0V40' fill='none' stroke='%23ffffff' stroke-opacity='0.08' stroke-width='1'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 85% 12%, rgba(75, 220, 112, 0.32) 0%, transparent 55%),
+    linear-gradient(145deg, #030508 0%, #070d14 55%, #020406 100%);
+  background-size: 40px 40px, 100% 100%, 100% 100%;
+  --card:rgba(11,16,22,.90);
+  --input:rgba(5,9,14,.75);
+  --text:#f5f7fa;
+  --muted:#a9b4c2;
+  --green:#55e879;
+  --green-strong:#4bdc70;
+  --green-soft:rgba(59,130,83,.12);
+  --border:#202a35;
+  --button:#151c25;
+  --button-border:#26313e;
+  --button-text:#f5f7fa;
+  --video-border:#202a35;
+  --shadow:0 10px 28px rgba(0,0,0,.35);
+  --save-bg:#16a34a;
+  --save-border:#15803d;
+  --save-text:#ffffff;
+  --danger:#ff6464;
+
+  --c-box-bg: #111827;
+  --c-box-border: #374151;
+  --c-total-text: #f5f7fa;
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  height:100dvh;
+  overflow:hidden;
+  background:var(--bg);
+  background-image:var(--bg-gradient);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans Thai",sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+
+body{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding: 8px;
+}
+
+button,input,select{
+  font:inherit;
+  -webkit-tap-highlight-color:transparent;
+}
+
+button{
+  border:0;
+  cursor:pointer;
+}
+
+.app-container{
+  width:100%;
+  height:100%;
+  max-width: 100%;
+  max-height: 100%;
+  display:grid;
+  grid-template-columns: 1.35fr 1fr;
+  grid-template-rows: minmax(0, 1fr);
+  gap: 12px;
+  padding: 8px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+}
+
+.left-panel{
+  display:flex;
+  flex-direction:column;
+  gap: 10px;
+  height: 100%;
+  min-height: 0;
+}
+
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding: 12px 18px;
+  flex-shrink: 0;
+}
+
+.brand-title{
+  font-size: 2.2rem;
+  font-weight: 500;
+  line-height:1;
+  letter-spacing:-1px;
+  color:var(--green-strong);
+}
+
+.brand-subtitle{
+  margin-top:3px;
+  font-size: 0.88rem;
+  color:var(--muted);
+  font-weight:600;
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.theme-top{
+  width:44px;
+  height:44px;
+  border-radius:12px;
+  background:var(--button);
+  border:1px solid var(--border);
+  color:var(--text);
+  display:grid;
+  place-items:center;
+  box-shadow:var(--shadow);
+}
+.theme-top svg{width:22px;height:22px}
+.test-top{font-weight:700;font-size:0.88rem;color:var(--button-text)}
+
+.theme-switch svg{display:block}
+.theme-icon-sun{display:none !important}
+[data-theme="dark"] .theme-icon-moon{display:none !important}
+[data-theme="dark"] .theme-icon-sun{display:block !important}
+
+.camera-card{
+  flex: 1;
+  padding: 16px;
+  display:grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  gap: 10px;
+  min-height: 0;
+}
+
+.camera-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.camera-title{
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.topic{
+  color:var(--text);
+  font-size: 0.9rem;
+  font-weight:700;
+}
+
+.camera-select-box{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+
+.field-label{
+  color:var(--muted);
+  font-size: 0.78rem;
+  font-weight:700;
+}
+
+select{
+  width:100%;
+  height: 36px;
+  padding:0 8px;
+  border-radius: 8px;
+  background:var(--input);
+  color:var(--text);
+  border:1px solid var(--border);
+  font-size: 0.85rem;
+  font-weight:600;
+  outline:none;
+}
+
+.video-box{
+  position:relative;
+  width:100%;
+  height: 100%;
+  min-height: 0;
+  background:#000;
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid var(--video-border);
+}
+
+video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+video.front-cam{transform:scaleX(-1)}
+video.back-cam{transform:scaleX(1)}
+
+.btn-float-switch{
+  position:absolute;
+  top:12px;
+  right:12px;
+  z-index:5;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:var(--button);
+  color:var(--text);
+  border:1px solid var(--border);
+  display:grid;
+  place-items:center;
+  box-shadow:0 4px 14px rgba(0,0,0,.12);
+}
+.btn-float-switch svg{width:22px;height:22px;fill:currentColor}
+
+.controls-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap: 10px;
+}
+
+.control-btn{
+  height: 44px;
+  border-radius: 10px;
+  background:var(--button);
+  color:var(--button-text);
+  border:1px solid var(--button-border);
+  font-size: 0.98rem;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap: 8px;
+}
+.control-btn svg{width:20px;height:20px;fill:currentColor}
+
+.right-panel{
+  display:flex;
+  flex-direction:column;
+  gap: 10px;
+  height: 100%;
+  min-height: 0;
+}
+
+.summary-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.summary-card{
+  padding: 16px 18px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.card-label{
+  color:var(--muted);
+  font-size: 0.82rem;
+  font-weight:700;
+  margin-bottom: 4px;
+}
+
+.result-val{
+  color:var(--text);
+  font-size: 1.8rem;
+  font-weight:850;
+  line-height:1.1;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.status-row{
+  display:flex;
+  flex-direction:column;
+  gap: 2px;
+  margin-top: 8px;
+  color:var(--muted);
+  font-size: 0.8rem;
+  font-weight:600;
+}
+
+.status-content{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.status-text{
+  color:var(--green-strong);
+  font-weight:700;
+}
+
+.sent-icon{
+  margin-left:auto;
+  width:18px;
+  height:18px;
+  color:var(--green-strong);
+}
+
+.conf-value{
+  color:var(--green-strong);
+  font-size: 2.3rem;
+  font-weight: 500;
+  line-height:1;
+}
+
+.conf-chart{
+  width:100%;
+  height: 26px;
+  margin-top: 6px;
+  overflow:visible;
+}
+
+/* ========================================================
+   Industrial Object Counter (ปรับแต่งตามที่อาจารย์ต้องการ)
+   ======================================================== */
+.counter-card{
+  padding: 14px 16px;
+  display:flex;
+  flex-direction:column;
+  gap: 10px;
+  flex: 1;
+}
+
+.counter-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-shrink: 0;
+}
+
+.counter-title{
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.reset-btn{
+  padding: 5px 14px;
+  background: #E90000; /* เปลี่ยนสีปุ่ม RESET เป็น #E90000 ตามต้องการ */
+  color: #fff;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.counter-layout-custom {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  min-height: 0;
+}
+
+/* 3 กล่องด้านบน */
+.top-three-boxes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  flex: 1.2;
+  min-height: 0;
+}
+
+.c-box-1 { background-color: #10b981; border: 2px solid #059669; }
+.c-box-2 { background-color: #fbbf24; border: 2px solid #f59e0b; }
+.c-box-3 { background-color: #f87171; border: 2px solid #ef4444; }
+
+.custom-sub-box {
+  border-radius: 12px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  min-width: 0;
+}
+
+/* ชื่อ Class (--): ขยายฟ้อนใหญ่ขึ้น 2 เท่า และเว้นระยะห่างด้านบนให้สูงขึ้น */
+.custom-sub-label {
+  font-size: 1.7rem; 
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px; /* ดันให้อยู่สูงกว่าตัวเลข */
+  opacity: 0.98;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+/* ตัวเลขวัตถุย่อย: ขยายใหญ่ขึ้นอีก 2 เท่า */
+.custom-sub-val {
+  font-size: 5rem; 
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 1px;
+}
+
+/* กล่อง Total Count ด้านล่าง: จัดกึ่งกลางสมบูรณ์แบบ */
+.bottom-total-box {
+  background-color: var(--c-box-bg);
+  border: 2px solid var(--c-box-border);
+  border-radius: 12px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* จัดกึ่งกลางซ้าย-ขวาของโซนนี้ */
+  gap: 30px; /* ระยะห่างระหว่างฝั่งข้อความกับฝั่งตัวเลข */
+  flex: 1;
+  min-height: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+.total-left-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* จัดกึ่งกลางข้อความภายใน */
+  text-align: center;
+}
+
+/* TOTAL COUNT ขยายใหญ่ขึ้น 2 เท่า */
+.total-title-main {
+  font-size: 1.9rem; 
+  font-weight: 700;
+  color: var(--c-total-text);
+  letter-spacing: 1px;
+  line-height: 1.1;
+}
+
+/* (รวมทั้งหมด) ขยายใหญ่ขึ้นตามสัดส่วน */
+.total-title-sub {
+  font-size: 1.5rem; 
+  font-weight: 500;
+  color: var(--muted);
+  line-height: 1.1;
+  margin-top: 4px;
+}
+
+/* ตัวเลข 00 ด้านล่าง: ขยายใหญ่ขึ้น 2 เท่า */
+.custom-total-val {
+  font-size: 6.4rem; 
+  font-weight: 600;
+  color: var(--c-total-text);
+  line-height: 1;
+  letter-spacing: 2px;
+}
+
+/* Settings Card */
+.settings-card{
+  padding: 16px;
+  display:flex;
+  flex-direction:column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+input{
+  width:100%;
+  height: 38px;
+  padding:0 12px;
+  border-radius: 8px;
+  outline:none;
+  background:var(--input);
+  color:var(--text);
+  border:1px solid var(--border);
+  font-size: 0.9rem;
+  font-weight:600;
+}
+
+input:focus, select:focus{
+  border-color:var(--green);
+  box-shadow:0 0 0 3px rgba(4,120,87,.15);
+}
+
+.model-wrap{position:relative}
+.model-wrap input{padding-right:40px}
+
+.copy-btn{
+  position:absolute;
+  right:4px;
+  top:50%;
+  transform:translateY(-50%);
+  width:30px;
+  height:30px;
+  background:transparent;
+  color:var(--muted);
+  display:grid;
+  place-items:center;
+}
+.copy-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2}
+
+.two-fields{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap: 10px;
+}
+
+.save-btn{
+  width:100%;
+  height: 40px;
+  border-radius: 8px;
+  background:var(--save-bg);
+  color:var(--save-text);
+  border:1px solid var(--save-border);
+  font-size: 0.9rem;
+  font-weight:750;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+</style>
+</head>
+
+<body data-theme="light">
+
+<div class="app-container">
+
+  <!-- Left Column: Header + Camera View -->
+  <section class="left-panel">
+    <div class="card header">
+      <div>
+        <div class="brand-title">AI Camera PC Dashboard</div>
+        <div class="brand-subtitle">Industrial Vision & Teachable Machine - GelectronLAB</div>
+      </div>
+
+      <div class="header-actions">
+        <button class="theme-top test-top" onclick="testConnection()" title="ทดสอบการเชื่อมต่อ">Test</button>
+        <button class="theme-top theme-switch" onclick="toggleTheme()" title="เปลี่ยนธีม">
+          <svg class="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.7 6.7 0 0 0 9.8 9.8Z"/></svg>
+          <svg class="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65"><circle cx="12" cy="12" r="3.5"/><path d="M12 2.5v2M12 19.5v2M4.58 4.58l1.42 1.42M18 18l1.42 1.42M2.5 12h2M19.5 12h2M4.58 19.42L6 18M18 6l1.42-1.42"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="card camera-card">
+      <div class="camera-heading">
+        <span class="camera-title">PC Camera Feed</span>
+        <span class="topic" id="current-group-label">Topic : PTL-School/group1</span>
+      </div>
+
+      <div class="camera-select-box">
+        <div class="field-label">เลือกอุปกรณ์กล้อง (Select Camera Device)</div>
+        <select id="camera-source" onchange="changeCameraDevice(this.value)">
+          <option value="">-- กำลังโหลดรายชื่อกล้อง... --</option>
+        </select>
+      </div>
+
+      <div class="video-box">
+        <video id="video" class="front-cam" autoplay muted playsinline></video>
+        <button class="btn-float-switch" onclick="switchCameraFacing()" title="สลับกล้องหน้า/หลัง">
+          <svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
+        </button>
+      </div>
+
+      <div class="controls-grid">
+        <button class="control-btn" id="start-btn">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <span>Running...</span>
+        </button>
+        <button class="control-btn" id="stop-btn">
+          <svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1.5"/></svg>
+          <span>Stop</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Right Column: Stats, Prominent Counter & Settings -->
+  <section class="right-panel">
+    
+    <div class="summary-grid">
+      <div class="card summary-card">
+        <div class="card-label">ผลการวิเคราะห์ข้อมูล</div>
+        <div class="result-val" id="name">--</div>
+        <div class="status-row">
+          <span>สถานะ MQTT</span>
+          <div class="status-content">
+            <b class="status-text" id="esp-status">Connecting...</b>
+            <svg class="sent-icon" id="status-arrow-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M21.7 3.3a1 1 0 0 0-1.03-.24l-18 7a1 1 0 0 0 .06 1.88l7.24 2.41 2.4 7.24a1 1 0 0 0 .94.68h.03a1 1 0 0 0 .93-.73l7.7-17.1a1 1 0 0 0-.27-1.14ZM10.8 13.2 5.7 11.5l11.73-4.56-6.63 6.26Zm1.45 1.45 5.85-5.52-4.34 9.64-1.51-4.12Z"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="card summary-card">
+        <div class="card-label">ความแม่นยำ (Confidence)</div>
+        <div class="conf-value" id="conf-text">0.0%</div>
+        <svg class="conf-chart" id="confidence-chart" viewBox="0 0 240 38" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="chartFill" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stop-color="#047857" stop-opacity=".25"/>
+              <stop offset="1" stop-color="#047857" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path id="chart-area" d="" fill="url(#chartFill)"/>
+          <path id="chart-line" d="" fill="none" stroke="#047857" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle id="chart-dot" cx="240" cy="19" r="4.5" fill="#047857"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Industrial Object Counter -->
+    <div class="card counter-card">
+      <div class="counter-header">
+        <span class="counter-title">Object Counter</span>
+        <button class="reset-btn" onclick="resetCounter()">RESET COUNTER</button>
+      </div>
+      
+      <div class="counter-layout-custom">
+        <!-- 3 กล่องด้านบน -->
+        <div class="top-three-boxes" id="dynamic-class-counters">
+          <div class="custom-sub-box c-box-1"><div class="custom-sub-label">--</div><div class="custom-sub-val" id="counter-class-0">00</div></div>
+          <div class="custom-sub-box c-box-2"><div class="custom-sub-label">--</div><div class="custom-sub-val" id="counter-class-1">00</div></div>
+          <div class="custom-sub-box c-box-3"><div class="custom-sub-label">--</div><div class="custom-sub-val" id="counter-class-2">00</div></div>
+        </div>
+
+        <!-- กล่อง Total Count ด้านล่าง (จัดกึ่งกลาง) -->
+        <div class="bottom-total-box">
+          <div class="total-left-info">
+            <div class="total-title-main">TOTAL COUNT</div>
+            <div class="total-title-sub">(รวมทั้งหมด)</div>
+          </div>
+          <div class="custom-total-val" id="total-counter">00</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Card -->
+    <div class="card settings-card">
+      <div>
+        <div class="field-label">Teachable Model ID</div>
+        <div class="model-wrap">
+          <input type="text" id="model-input" placeholder="เช่น Voxb2VGd2">
+          <button class="copy-btn" onclick="copyModelId()" title="คัดลอก Model ID">
+            <svg viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="2"/><path d="M5 16H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="two-fields">
+        <div>
+          <div class="field-label">School ID</div>
+          <input type="text" id="school-input" placeholder="PTL-School">
+        </div>
+        <div>
+          <div class="field-label">Name ID</div>
+          <input type="text" id="name-input" placeholder="group1">
+        </div>
+      </div>
+
+      <button class="save-btn" onclick="saveSettings()">SAVE & CONNECT</button>
+    </div>
+
+  </section>
+
+</div>
+
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = localStorage.getItem("theme") || "light";
+  document.body.dataset.theme = savedTheme;
+
+  let savedId = localStorage.getItem("saved_model_id") || "";
+  if (savedId) document.getElementById("model-input").value = savedId;
+
+  let savedSchool = localStorage.getItem("saved_school_id") || "PTL-School";
+  document.getElementById("school-input").value = savedSchool;
+
+  let savedNameId = localStorage.getItem("saved_name_id") || "group1";
+  document.getElementById("name-input").value = savedNameId;
+
+  updateTopicDisplay(savedSchool, savedNameId);
+  initMQTT();
+  getConnectedCameras();
+});
+
+function saveSettings() {
+  const modelVal = document.getElementById("model-input").value.trim();
+  const schoolVal = document.getElementById("school-input").value.trim() || "PTL-School";
+  const nameVal = document.getElementById("name-input").value.trim() || "group1";
+
+  if (!modelVal) {
+    alert("กรุณากรอก Model ID ให้ถูกต้อง");
+    return;
+  }
+
+  localStorage.setItem("saved_model_id", modelVal);
+  localStorage.setItem("saved_school_id", schoolVal);
+  localStorage.setItem("saved_name_id", nameVal);
+
+  updateTopicDisplay(schoolVal, nameVal);
+  alert("บันทึกค่าเรียบร้อย! กำลังเชื่อมต่อระบบใหม่...");
+  initMQTT();
+}
+
+function copyModelId(){
+  const input = document.getElementById("model-input");
+  if(!input.value) return;
+  navigator.clipboard?.writeText(input.value).then(() => alert("คัดลอก Model ID แล้ว"));
+}
+
+function updateTopicDisplay(schoolId, nameId) {
+  document.getElementById("current-group-label").textContent = "Topic : " + schoolId + "/" + nameId;
+}
+
+async function getConnectedCameras() {
+  try {
+    const tempStream = await navigator.mediaDevices.getUserMedia({ video: true });
+    tempStream.getTracks().forEach(track => track.stop());
+
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const videoDevices = devices.filter(device => device.kind === 'videoinput');
+    const selectElement = document.getElementById("camera-source");
+    selectElement.innerHTML = "";
+
+    if (videoDevices.length === 0) {
+      selectElement.innerHTML = '<option value="">ไม่พบอุปกรณ์กล้องในระบบ</option>';
+      return;
+    }
+
+    videoDevices.forEach((device, index) => {
+      const option = document.createElement("option");
+      option.value = device.deviceId;
+      option.text = device.label || `Camera ${index + 1}`;
+      selectElement.appendChild(option);
+    });
+
+    if (videoDevices.length > 0) {
+      startCamera(videoDevices[0].deviceId);
+    }
+  } catch (err) {
+    console.error("ไม่สามารถเข้าถึงอุปกรณ์กล้องได้: ", err);
+    document.getElementById("camera-source").innerHTML = '<option value="">กรุณากดอนุญาตใช้งานกล้อง</option>';
+  }
+}
+
+async function changeCameraDevice(selectedDeviceId) {
+  if (!selectedDeviceId) return;
+  try {
+    await startCamera(selectedDeviceId);
+  } catch (e) {
+    alert("ไม่สามารถเปลี่ยนกล้องตัวนี้ได้: " + e.message);
+  }
+}
+
+const mqttHost = "broker.emqx.io";
+const mqttPort = 8084;
+let mqttClient = null;
+let isConnecting = false;
+
+function getDynamicTopic() {
+  let schoolId = localStorage.getItem("saved_school_id") || "PTL-School";
+  let nameId = localStorage.getItem("saved_name_id") || "group1";
+  return "gelectronlab/" + schoolId + "/" + nameId + "/status";
+}
+
+function initMQTT() {
+  if (isConnecting) return;
+  isConnecting = true;
+
+  if (mqttClient) {
+    try {
+      mqttClient.onConnectionLost = null;
+      if (mqttClient.isConnected()) mqttClient.disconnect();
+    } catch(e) { console.log(e); }
+  }
+
+  let schoolId = localStorage.getItem("saved_school_id") || "PTL-School";
+  let nameId = localStorage.getItem("saved_name_id") || "group1";
+  let uniqueClientId = "WebPCClient-" + schoolId + "-" + nameId + "-" + Date.now();
+
+  mqttClient = new Paho.MQTT.Client(mqttHost, Number(mqttPort), uniqueClientId);
+
+  mqttClient.onConnectionLost = function(responseObject) {
+    isConnecting = false;
+    document.getElementById("esp-status").textContent = "Disconnected";
+    document.getElementById("esp-status").style.color = "var(--danger)";
+    if (responseObject.errorCode !== 0) {
+      setTimeout(initMQTT, 5000);
+    }
+  };
+
+  try {
+    mqttClient.connect({
+      onSuccess: function() {
+        isConnecting = false;
+        document.getElementById("esp-status").textContent = "Connected " + nameId;
+        document.getElementById("esp-status").style.color = "var(--green-strong)";
+      },
+      onFailure: function(message) {
+        isConnecting = false;
+        document.getElementById("esp-status").textContent = "Failed";
+        document.getElementById("esp-status").style.color = "var(--danger)";
+        setTimeout(initMQTT, 5000);
+      },
+      useSSL: true, timeout: 5, keepAliveInterval: 30
+    });
+  } catch(e) { isConnecting = false; }
+}
+
+async function sendToESP32(payloadMsg) {
+  if (mqttClient && mqttClient.isConnected()) {
+    let topic = getDynamicTopic();
+    let message = new Paho.MQTT.Message(payloadMsg);
+    message.destinationName = topic;
+    mqttClient.send(message);
+  }
+}
+
+async function testConnection() {
+  await sendToESP32("Test_Class");
+  alert("ส่งสัญญาณทดสอบไปยัง Mini MicroKit PT-L เรียบร้อย!");
+}
+
+function toggleTheme() {
+  const body = document.body;
+  const currentTheme = body.dataset.theme === "dark" ? "light" : "dark";
+  body.dataset.theme = currentTheme;
+  localStorage.setItem("theme", currentTheme);
+}
+
+let model = null;
+let running = false;
+let currentFacingMode = "user";
+let predictionBusy = false;
+
+let totalCount = 0;
+let classNamesList = [];
+let classCounts = {};
+let canCount = true; 
+const CONFIDENCE_THRESHOLD = 0.90;
+
+const confidenceHistory = [];
+const GRAPH_POINTS = 30;
+const GRAPH_UPDATE_MS = 150;
+let lastGraphRender = 0;
+let graphInitialized = false;
+
+function renderConfidenceGraph(value) {
+  const chartLine = document.getElementById("chart-line");
+  const chartArea = document.getElementById("chart-area");
+  const chartDot = document.getElementById("chart-dot");
+  if (!chartLine || !chartArea || !chartDot) return;
+
+  value = Math.max(0, Math.min(100, Number(value) || 0));
+  confidenceHistory.push(value);
+  if (confidenceHistory.length > GRAPH_POINTS) confidenceHistory.shift();
+
+  const data = [...confidenceHistory];
+  while (data.length < GRAPH_POINTS) data.unshift(data[0] || value);
+
+  const width = 240, height = 38, topPadding = 3, bottomPadding = 4;
+  const graphHeight = height - topPadding - bottomPadding;
+  const stepX = width / (GRAPH_POINTS - 1);
+
+  let linePath = "", lastX = 0, lastY = height / 2;
+  for (let i = 0; i < GRAPH_POINTS; i++) {
+    const x = i * stepX;
+    const y = topPadding + ((100 - data[i]) / 100) * graphHeight;
+    linePath += (i === 0 ? `M ${x.toFixed(2)} ${y.toFixed(2)}` : ` L ${x.toFixed(2)} ${y.toFixed(2)}`);
+    if (i === GRAPH_POINTS - 1) { lastX = x; lastY = y; }
+  }
+
+  chartLine.setAttribute("d", linePath);
+  chartArea.setAttribute("d", linePath + ` L ${lastX.toFixed(2)} ${height} L 0 ${height} Z`);
+  chartDot.setAttribute("cx", lastX.toFixed(2));
+  chartDot.setAttribute("cy", lastY.toFixed(2));
+  graphInitialized = true;
+}
+
+renderConfidenceGraph(0);
+
+async function startCamera(deviceId = null) {
+  if (window.currentStream) {
+    window.currentStream.getTracks().forEach(track => track.stop());
+  }
+
+  const videoElement = document.getElementById("video");
+  const videoConstraints = { width: { ideal: 1280 }, height: { ideal: 720 } };
+
+  if (deviceId) {
+    videoConstraints.deviceId = { exact: deviceId };
+  } else {
+    videoConstraints.facingMode = currentFacingMode;
+  }
+
+  const stream = await navigator.mediaDevices.getUserMedia({ video: videoConstraints });
+  window.currentStream = stream;
+  videoElement.srcObject = stream;
+}
+
+async function switchCameraFacing() {
+  currentFacingMode = (currentFacingMode === "user" ? "environment" : "user");
+  const videoElement = document.getElementById("video");
+  videoElement.className = (currentFacingMode === "user" ? "front-cam" : "back-cam");
+  try { await startCamera(); } catch(e) { alert("ไม่สามารถสลับกล้องได้: " + e.message); }
+}
+
+document.getElementById("start-btn").onclick = async () => {
+  let savedId = localStorage.getItem("saved_model_id") || document.getElementById("model-input").value.trim();
+  if (!savedId) {
+    alert("กรุณากรอกและบันทึก Model ID ก่อนเริ่มใช้งาน");
+    return;
+  }
+
+  try {
+    document.getElementById("start-btn").querySelector("span").textContent = "Loading...";
+    const MODEL_URL = `https://teachablemachine.withgoogle.com/models/${savedId}/`;
+    model = await tmImage.load(MODEL_URL + "model.json", MODEL_URL + "metadata.json");
+
+    classNamesList = model.getClassLabels().slice(0, 3);
+    classCounts = {};
+    classNamesList.forEach(name => { classCounts[name] = 0; });
+    buildCounterUIBoxes();
+
+    running = true;
+    document.getElementById("start-btn").querySelector("span").textContent = "Running...";
+    loop();
+  } catch(e) {
+    alert("โหลดโมเดลไม่สำเร็จ: " + e.message);
+    document.getElementById("start-btn").querySelector("span").textContent = "Running...";
+  }
+};
+
+function buildCounterUIBoxes() {
+  const container = document.getElementById("dynamic-class-counters");
+  container.innerHTML = "";
+
+  for (let i = 0; i < 3; i++) {
+    let className = classNamesList[i] || "--";
+    let countVal = (className !== "--") ? (classCounts[className] || 0) : 0;
+    let formattedVal = String(countVal).padStart(2, '0');
+
+    let box = document.createElement("div");
+    box.className = `custom-sub-box c-box-${i+1}`;
+    box.innerHTML = `
+      <div class="custom-sub-label" title="${className}">${className}</div>
+      <div class="custom-sub-val" id="counter-class-${i}">${formattedVal}</div>
+    `;
+    container.appendChild(box);
+  }
+}
+
+async function loop() {
+  if (!running || predictionBusy) return;
+  predictionBusy = true;
+
+  try {
+    const prediction = await model.predict(document.getElementById("video"), false);
+    let best = prediction.reduce((h, i) => i.probability > h.probability ? i : h);
+
+    let pctVal = best.probability * 100;
+    document.getElementById("conf-text").textContent = pctVal.toFixed(1) + "%";
+    
+    if (performance.now() - lastGraphRender >= GRAPH_UPDATE_MS) {
+      lastGraphRender = performance.now();
+      renderConfidenceGraph(pctVal);
+    }
+
+    let currentClass = best.probability >= CONFIDENCE_THRESHOLD ? best.className : "None";
+
+    if (currentClass === "None" || currentClass === "Uncertain...") {
+      canCount = true; 
+      document.getElementById("name").textContent = "Waiting / None";
+    } else if (currentClass !== "None" && canCount) {
+      totalCount++;
+      if (classCounts[currentClass] !== undefined) {
+        classCounts[currentClass]++;
+      }
+
+      canCount = false; 
+      updateCounterUI();
+
+      document.getElementById("name").textContent = currentClass;
+      sendToESP32(currentClass); 
+    }
+
+  } catch(err) {
+    console.error(err);
+  } finally {
+    predictionBusy = false;
+  }
+
+  if (running) requestAnimationFrame(loop);
+}
+
+function updateCounterUI() {
+  document.getElementById("total-counter").textContent = String(totalCount).padStart(2, '0');
+  classNamesList.forEach((name, i) => {
+    let el = document.getElementById(`counter-class-${i}`);
+    if (el) {
+      el.textContent = String(classCounts[name] || 0).padStart(2, '0');
+    }
+  });
+}
+
+function resetCounter() {
+  totalCount = 0;
+  for (let key in classCounts) classCounts[key] = 0;
+  canCount = true;
+  updateCounterUI();
+  alert("รีเซ็ตค่าตัวนับทั้งหมดเรียบร้อย!");
+}
+
+document.getElementById("stop-btn").onclick = () => {
+  running = false;
+  if (window.currentStream) {
+    window.currentStream.getTracks().forEach(track => track.stop());
+    window.currentStream = null;
+  }
+  location.reload();
+};
+</script>
+
+</body>
+</html>
