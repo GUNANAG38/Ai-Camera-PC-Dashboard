@@ -142,7 +142,7 @@ button{
 
 .brand-title{
   font-size: 2.2rem;
-  font-weight: 500;
+  font-weight: 400;
   line-height:1;
   letter-spacing:-1px;
   color:var(--green-strong);
@@ -152,7 +152,7 @@ button{
   margin-top:3px;
   font-size: 0.88rem;
   color:var(--muted);
-  font-weight:600;
+  font-weight: 400;
 }
 
 .header-actions{
@@ -173,7 +173,7 @@ button{
   box-shadow:var(--shadow);
 }
 .theme-top svg{width:22px;height:22px}
-.test-top{font-weight:700;font-size:0.88rem;color:var(--button-text)}
+.test-top{font-weight: 400;font-size:0.88rem;color:var(--button-text)}
 
 .theme-switch svg{display:block}
 .theme-icon-sun{display:none !important}
@@ -197,13 +197,13 @@ button{
 
 .camera-title{
   font-size: 1.25rem;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .topic{
   color:var(--text);
   font-size: 0.9rem;
-  font-weight:700;
+  font-weight: 400;
 }
 
 .camera-select-box{
@@ -215,7 +215,7 @@ button{
 .field-label{
   color:var(--muted);
   font-size: 0.78rem;
-  font-weight:700;
+  font-weight: 400;
 }
 
 select{
@@ -227,7 +227,7 @@ select{
   color:var(--text);
   border:1px solid var(--border);
   font-size: 0.85rem;
-  font-weight:600;
+  font-weight: 400;
   outline:none;
 }
 
@@ -282,7 +282,7 @@ video.back-cam{transform:scaleX(1)}
   color:var(--button-text);
   border:1px solid var(--button-border);
   font-size: 0.98rem;
-  font-weight:700;
+  font-weight: 400;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -298,32 +298,39 @@ video.back-cam{transform:scaleX(1)}
   min-height: 0;
 }
 
+/* ========================================================
+   Summary Grid
+   ======================================================== */
 .summary-grid{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  display:flex;
+  flex-direction:column;
+  gap: 8px;
   flex-shrink: 0;
 }
 
 .summary-card{
-  padding: 16px 18px;
+  padding: clamp(10px, 1.5vh, 16px) 18px;
   display:flex;
   flex-direction:column;
   justify-content:center;
 }
 
+.result-card-large {
+  flex: 1;
+}
+
 .card-label{
   color:var(--muted);
-  font-size: 0.82rem;
-  font-weight:700;
+  font-size: clamp(1.1rem, 1.8vh, 1.4rem); 
+  font-weight: 400;
   margin-bottom: 4px;
 }
 
 .result-val{
   color:var(--text);
-  font-size: 1.8rem;
-  font-weight:850;
-  line-height:1.1;
+  font-size: clamp(2.0rem, 3.5vh, 2.8rem);
+  font-weight: 400;
+  line-height: 1.1;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
@@ -333,10 +340,10 @@ video.back-cam{transform:scaleX(1)}
   display:flex;
   flex-direction:column;
   gap: 2px;
-  margin-top: 8px;
+  margin-top: 6px;
   color:var(--muted);
-  font-size: 0.8rem;
-  font-weight:600;
+  font-size: 0.85rem;
+  font-weight: 400;
 }
 
 .status-content{
@@ -347,7 +354,7 @@ video.back-cam{transform:scaleX(1)}
 
 .status-text{
   color:var(--green-strong);
-  font-weight:700;
+  font-weight: 400;
 }
 
 .sent-icon{
@@ -359,27 +366,29 @@ video.back-cam{transform:scaleX(1)}
 
 .conf-value{
   color:var(--green-strong);
-  font-size: 2.3rem;
-  font-weight: 500;
+  font-size: clamp(1.8rem, 3vh, 2.3rem);
+  font-weight: 400;
   line-height:1;
 }
 
 .conf-chart{
   width:100%;
-  height: 26px;
-  margin-top: 6px;
+  height: 24px;
+  margin-top: 4px;
   overflow:visible;
 }
 
 /* ========================================================
-   Industrial Object Counter (ปรับแต่งตามที่อาจารย์ต้องการ)
+   Industrial Object Counter
    ======================================================== */
 .counter-card{
-  padding: 14px 16px;
+  padding: clamp(8px, 1.2vh, 12px) 14px;
   display:flex;
   flex-direction:column;
-  gap: 10px;
+  gap: 6px;
   flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .counter-header{
@@ -390,24 +399,24 @@ video.back-cam{transform:scaleX(1)}
 }
 
 .counter-title{
-  font-size: 1.15rem;
-  font-weight: 500;
+  font-size: 1.0rem;
+  font-weight: 400;
   color: var(--text);
 }
 
 .reset-btn{
-  padding: 5px 14px;
-  background: #E90000; /* เปลี่ยนสีปุ่ม RESET เป็น #E90000 ตามต้องการ */
+  padding: 4px 10px;
+  background: #E90000;
   color: #fff;
   border-radius: 6px;
-  font-size: 0.78rem;
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: 400;
 }
 
 .counter-layout-custom {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: clamp(4px, 1vh, 8px);
   flex: 1;
   min-height: 0;
 }
@@ -416,7 +425,7 @@ video.back-cam{transform:scaleX(1)}
 .top-three-boxes {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 8px;
   flex: 1.2;
   min-height: 0;
 }
@@ -426,8 +435,9 @@ video.back-cam{transform:scaleX(1)}
 .c-box-3 { background-color: #f87171; border: 2px solid #ef4444; }
 
 .custom-sub-box {
-  border-radius: 12px;
-  padding: 8px;
+  container-type: inline-size;
+  border-radius: 8px;
+  padding: clamp(2px, 0.8vh, 6px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -436,14 +446,14 @@ video.back-cam{transform:scaleX(1)}
   color: #ffffff;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   min-width: 0;
+  overflow: hidden;
 }
 
-/* ชื่อ Class (--): ขยายฟ้อนใหญ่ขึ้น 2 เท่า และเว้นระยะห่างด้านบนให้สูงขึ้น */
 .custom-sub-label {
-  font-size: 1.7rem; 
-  font-weight: 700;
+  font-size: clamp(0.9rem, 15cqw, 1.15rem); 
+  font-weight: 400;
   letter-spacing: 0.5px;
-  margin-bottom: 8px; /* ดันให้อยู่สูงกว่าตัวเลข */
+  margin-bottom: 2px;
   opacity: 0.98;
   white-space: nowrap;
   overflow: hidden;
@@ -451,107 +461,101 @@ video.back-cam{transform:scaleX(1)}
   width: 100%;
 }
 
-/* ตัวเลขวัตถุย่อย: ขยายใหญ่ขึ้นอีก 2 เท่า */
 .custom-sub-val {
-  font-size: 5rem; 
-  font-weight: 600;
+  font-size: clamp(1.8rem, 35cqw, 2.8rem); 
+  font-weight: 400;
   line-height: 1;
   letter-spacing: 1px;
 }
 
-/* กล่อง Total Count ด้านล่าง: จัดกึ่งกลางสมบูรณ์แบบ */
+/* กล่อง Total Count ด้านล่าง */
 .bottom-total-box {
+  container-type: inline-size;
   background-color: var(--c-box-bg);
   border: 2px solid var(--c-box-border);
-  border-radius: 12px;
-  padding: 10px 16px;
+  border-radius: 10px;
+  padding: clamp(4px, 1vh, 8px) 12px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center; /* จัดกึ่งกลางซ้าย-ขวาของโซนนี้ */
-  gap: 30px; /* ระยะห่างระหว่างฝั่งข้อความกับฝั่งตัวเลข */
+  justify-content: center;
+  gap: 2px;
   flex: 1;
   min-height: 0;
   box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  overflow: hidden;
 }
 
-.total-left-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center; /* จัดกึ่งกลางข้อความภายใน */
+.total-title-main {
+  font-size: clamp(1.0rem, 7cqw, 1.4rem); 
+  font-weight: 400;
+  color: var(--c-total-text);
+  letter-spacing: 1px;
+  line-height: 1;
   text-align: center;
 }
 
-/* TOTAL COUNT ขยายใหญ่ขึ้น 2 เท่า */
-.total-title-main {
-  font-size: 1.9rem; 
-  font-weight: 700;
-  color: var(--c-total-text);
-  letter-spacing: 1px;
-  line-height: 1.1;
-}
-
-/* (รวมทั้งหมด) ขยายใหญ่ขึ้นตามสัดส่วน */
-.total-title-sub {
-  font-size: 1.5rem; 
-  font-weight: 500;
-  color: var(--muted);
-  line-height: 1.1;
-  margin-top: 4px;
-}
-
-/* ตัวเลข 00 ด้านล่าง: ขยายใหญ่ขึ้น 2 เท่า */
 .custom-total-val {
-  font-size: 6.4rem; 
-  font-weight: 600;
+  font-size: clamp(2.2rem, 18cqw, 3.8rem); 
+  font-weight: 400;
   color: var(--c-total-text);
   line-height: 1;
   letter-spacing: 2px;
+  text-align: center;
 }
 
-/* Settings Card */
+/* ========================================================
+   Settings Card 
+   ======================================================== */
 .settings-card{
-  padding: 16px;
+  padding: clamp(10px, 1.5vh, 14px) 18px;
   display:flex;
   flex-direction:column;
-  gap: 8px;
+  gap: clamp(6px, 1vh, 10px);
   flex-shrink: 0;
 }
 
-input{
+.settings-card .field-label {
+  font-size: clamp(1.1rem, 1.8vh, 1.4rem); 
+  font-weight: 400;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+
+.settings-card input{
   width:100%;
-  height: 38px;
-  padding:0 12px;
-  border-radius: 8px;
+  height: clamp(48px, 6.5vh, 64px); 
+  padding:0 14px;
+  border-radius: 12px;
   outline:none;
   background:var(--input);
   color:var(--text);
   border:1px solid var(--border);
-  font-size: 0.9rem;
-  font-weight:600;
+  font-size: clamp(1.3rem, 2.2vh, 1.7rem); 
+  font-weight: 400;
 }
 
-input:focus, select:focus{
+.settings-card input:focus, select:focus{
   border-color:var(--green);
   box-shadow:0 0 0 3px rgba(4,120,87,.15);
 }
 
 .model-wrap{position:relative}
-.model-wrap input{padding-right:40px}
+.model-wrap input{padding-right:55px}
 
 .copy-btn{
   position:absolute;
-  right:4px;
+  right:8px;
   top:50%;
   transform:translateY(-50%);
-  width:30px;
-  height:30px;
+  width:40px;
+  height:40px;
   background:transparent;
   color:var(--muted);
   display:grid;
   place-items:center;
 }
-.copy-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2}
+.copy-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2}
 
 .two-fields{
   display:grid;
@@ -561,13 +565,13 @@ input:focus, select:focus{
 
 .save-btn{
   width:100%;
-  height: 40px;
-  border-radius: 8px;
+  height: clamp(42px, 5.5vh, 52px); 
+  border-radius: 10px;
   background:var(--save-bg);
   color:var(--save-text);
   border:1px solid var(--save-border);
-  font-size: 0.9rem;
-  font-weight:750;
+  font-size: clamp(1.1rem, 1.8vh, 1.35rem); 
+  font-weight: 400;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -633,18 +637,20 @@ input:focus, select:focus{
   <section class="right-panel">
     
     <div class="summary-grid">
-      <div class="card summary-card">
+      <!-- ผลการวิเคราะห์ข้อมูล -->
+      <div class="card summary-card result-card-large">
         <div class="card-label">ผลการวิเคราะห์ข้อมูล</div>
         <div class="result-val" id="name">--</div>
         <div class="status-row">
           <span>สถานะ MQTT</span>
           <div class="status-content">
-            <b class="status-text" id="esp-status">Connecting...</b>
+            <span class="status-text" id="esp-status">Connecting...</span>
             <svg class="sent-icon" id="status-arrow-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M21.7 3.3a1 1 0 0 0-1.03-.24l-18 7a1 1 0 0 0 .06 1.88l7.24 2.41 2.4 7.24a1 1 0 0 0 .94.68h.03a1 1 0 0 0 .93-.73l7.7-17.1a1 1 0 0 0-.27-1.14ZM10.8 13.2 5.7 11.5l11.73-4.56-6.63 6.26Zm1.45 1.45 5.85-5.52-4.34 9.64-1.51-4.12Z"/></svg>
           </div>
         </div>
       </div>
 
+      <!-- ความแม่นยำ (Confidence) -->
       <div class="card summary-card">
         <div class="card-label">ความแม่นยำ (Confidence)</div>
         <div class="conf-value" id="conf-text">0.0%</div>
@@ -670,20 +676,17 @@ input:focus, select:focus{
       </div>
       
       <div class="counter-layout-custom">
-        <!-- 3 กล่องด้านบน -->
+        <!-- 3 กล่องด้านบน (เริ่มต้นแสดงเลข 0 เดี่ยว) -->
         <div class="top-three-boxes" id="dynamic-class-counters">
-          <div class="custom-sub-box c-box-1"><div class="custom-sub-label">--</div><div class="custom-sub-val" id="counter-class-0">00</div></div>
-          <div class="custom-sub-box c-box-2"><div class="custom-sub-label">--</div><div class="custom-sub-val" id="counter-class-1">00</div></div>
-          <div class="custom-sub-box c-box-3"><div class="custom-sub-label">--</div><div class="custom-sub-val" id="counter-class-2">00</div></div>
+          <div class="custom-sub-box c-box-1"><div class="custom-sub-label">--</div><div class="custom-sub-val" id="counter-class-0">0</div></div>
+          <div class="custom-sub-box c-box-2"><div class="custom-sub-label">--</div><div class="custom-sub-val" id="counter-class-1">0</div></div>
+          <div class="custom-sub-box c-box-3"><div class="custom-sub-label">--</div><div class="custom-sub-val" id="counter-class-2">0</div></div>
         </div>
 
-        <!-- กล่อง Total Count ด้านล่าง (จัดกึ่งกลาง) -->
+        <!-- กล่อง Total Count ด้านล่าง (เริ่มต้นแสดงเลข 0 เดี่ยว) -->
         <div class="bottom-total-box">
-          <div class="total-left-info">
-            <div class="total-title-main">TOTAL COUNT</div>
-            <div class="total-title-sub">(รวมทั้งหมด)</div>
-          </div>
-          <div class="custom-total-val" id="total-counter">00</div>
+          <div class="total-title-main">TOTAL COUNT</div>
+          <div class="custom-total-val" id="total-counter">0</div>
         </div>
       </div>
     </div>
@@ -992,7 +995,9 @@ function buildCounterUIBoxes() {
   for (let i = 0; i < 3; i++) {
     let className = classNamesList[i] || "--";
     let countVal = (className !== "--") ? (classCounts[className] || 0) : 0;
-    let formattedVal = String(countVal).padStart(2, '0');
+    
+    // ถ้าเป็น 0 แสดงตัวเลขเดี่ยว "0", ถ้ามากกว่า 0 แสดงตามจำนวนจริง (รองรับ 2-3 หลักอัตโนมัติ)
+    let formattedVal = String(countVal);
 
     let box = document.createElement("div");
     box.className = `custom-sub-box c-box-${i+1}`;
@@ -1048,11 +1053,13 @@ async function loop() {
 }
 
 function updateCounterUI() {
-  document.getElementById("total-counter").textContent = String(totalCount).padStart(2, '0');
+  // รองรับการแสดงผลเลขเดี่ยว "0" หรือขยายเป็น 2-3 หลัก (เช่น 12, 123) เมื่อมีการนับ
+  document.getElementById("total-counter").textContent = String(totalCount);
+  
   classNamesList.forEach((name, i) => {
     let el = document.getElementById(`counter-class-${i}`);
     if (el) {
-      el.textContent = String(classCounts[name] || 0).padStart(2, '0');
+      el.textContent = String(classCounts[name] || 0);
     }
   });
 }
