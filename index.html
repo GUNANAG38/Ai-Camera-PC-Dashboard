@@ -90,7 +90,7 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  padding: 8px;
+  padding: 6px;
 }
 
 button,input,select{
@@ -109,16 +109,16 @@ button{
   max-width: 100%;
   max-height: 100%;
   display:grid;
-  grid-template-columns: 1.25fr 1fr;
+  grid-template-columns: 65fr 35fr;
   grid-template-rows: minmax(0, 1fr);
-  gap: 12px;
-  padding: 8px;
+  gap: 10px;
+  padding: 4px;
 }
 
 .card{
   background:var(--card);
   border:1px solid var(--border);
-  border-radius:16px;
+  border-radius:14px;
   box-shadow:var(--shadow);
   backdrop-filter:blur(20px);
   -webkit-backdrop-filter:blur(20px);
@@ -127,7 +127,7 @@ button{
 .left-panel{
   display:flex;
   flex-direction:column;
-  gap: 10px;
+  gap: 8px;
   height: 100%;
   min-height: 0;
 }
@@ -136,7 +136,7 @@ button{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding: 12px 18px;
+  padding: 10px 16px;
   flex-shrink: 0;
 }
 
@@ -158,13 +158,13 @@ button{
 .header-actions{
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:8px;
 }
 
 .theme-top{
-  width:44px;
-  height:44px;
-  border-radius:12px;
+  width:42px;
+  height:42px;
+  border-radius:10px;
   background:var(--button);
   border:1px solid var(--border);
   color:var(--text);
@@ -172,8 +172,8 @@ button{
   place-items:center;
   box-shadow:var(--shadow);
 }
-.theme-top svg{width:22px;height:22px}
-.test-top{font-weight: 400;font-size:0.88rem;color:var(--button-text)}
+.theme-top svg{width:20px;height:20px}
+.test-top{font-weight: 400;font-size:0.85rem;color:var(--button-text)}
 
 .theme-switch svg{display:block}
 .theme-icon-sun{display:none !important}
@@ -182,10 +182,10 @@ button{
 
 .camera-card{
   flex: 1;
-  padding: 16px;
+  padding: 12px;
   display:grid;
   grid-template-rows: auto auto minmax(0, 1fr) auto;
-  gap: 10px;
+  gap: 8px;
   min-height: 0;
 }
 
@@ -196,13 +196,13 @@ button{
 }
 
 .camera-title{
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 400;
 }
 
 .topic{
   color:var(--text);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 400;
 }
 
@@ -214,19 +214,19 @@ button{
 
 .field-label{
   color:var(--muted);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 400;
 }
 
 select{
   width:100%;
-  height: 36px;
+  height: 34px;
   padding:0 8px;
   border-radius: 8px;
   background:var(--input);
   color:var(--text);
   border:1px solid var(--border);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 400;
   outline:none;
 }
@@ -237,7 +237,7 @@ select{
   height: 100%;
   min-height: 0;
   background:#000;
-  border-radius:12px;
+  border-radius:10px;
   overflow:hidden;
   border:1px solid var(--video-border);
 }
@@ -254,11 +254,11 @@ video.back-cam{transform:scaleX(1)}
 
 .btn-float-switch{
   position:absolute;
-  top:12px;
-  right:12px;
+  top:10px;
+  right:10px;
   z-index:5;
-  width:44px;
-  height:44px;
+  width:40px;
+  height:40px;
   border-radius:50%;
   background:var(--button);
   color:var(--text);
@@ -267,33 +267,33 @@ video.back-cam{transform:scaleX(1)}
   place-items:center;
   box-shadow:0 4px 14px rgba(0,0,0,.12);
 }
-.btn-float-switch svg{width:22px;height:22px;fill:currentColor}
+.btn-float-switch svg{width:20px;height:20px;fill:currentColor}
 
 .controls-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap: 10px;
+  gap: 8px;
 }
 
 .control-btn{
-  height: 44px;
-  border-radius: 10px;
+  height: 40px;
+  border-radius: 8px;
   background:var(--button);
   color:var(--button-text);
   border:1px solid var(--button-border);
-  font-size: 0.98rem;
+  font-size: 0.92rem;
   font-weight: 400;
   display:flex;
   align-items:center;
   justify-content:center;
-  gap: 8px;
+  gap: 6px;
 }
-.control-btn svg{width:20px;height:20px;fill:currentColor}
+.control-btn svg{width:18px;height:18px;fill:currentColor}
 
 .right-panel{
   display:flex;
   flex-direction:column;
-  gap: 10px;
+  gap: 8px;
   height: 100%;
   min-height: 0;
 }
@@ -304,18 +304,18 @@ video.back-cam{transform:scaleX(1)}
 .top-right-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 8px;
   flex-shrink: 0;
 }
 
 .summary-grid{
   display:flex;
   flex-direction:column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .summary-card{
-  padding: clamp(8px, 1.2vh, 12px) 14px;
+  padding: clamp(6px, 1.0vh, 10px) 12px;
   display:flex;
   flex-direction:column;
   justify-content:center;
@@ -327,14 +327,14 @@ video.back-cam{transform:scaleX(1)}
 
 .card-label{
   color:var(--muted);
-  font-size: clamp(1.0rem, 1.5vh, 1.2rem); 
+  font-size: clamp(0.9rem, 1.3vh, 1.1rem); 
   font-weight: 400;
   margin-bottom: 2px;
 }
 
 .result-val{
   color: var(--text);
-  font-size: clamp(1.5rem, 2.5vh, 2.0rem);
+  font-size: clamp(1.3rem, 2.2vh, 1.8rem);
   font-weight: 400;
   line-height: 1.3;
   white-space: nowrap;
@@ -344,16 +344,16 @@ video.back-cam{transform:scaleX(1)}
   display:flex;
   flex-direction:column;
   gap: 2px;
-  margin-top: 4px;
+  margin-top: 2px;
   color:var(--muted);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 400;
 }
 
 .status-content{
   display:flex;
   align-items:center;
-  gap:6px;
+  gap:4px;
 }
 
 .status-text{
@@ -363,88 +363,94 @@ video.back-cam{transform:scaleX(1)}
 
 .sent-icon{
   margin-left:auto;
-  width:16px;
-  height:16px;
+  width:14px;
+  height:14px;
   color:var(--green-strong);
 }
 
 .conf-value{
   color:var(--green-strong);
-  font-size: clamp(1.5rem, 2.5vh, 2.0rem);
+  font-size: clamp(1.3rem, 2.2vh, 1.8rem);
   font-weight: 400;
   line-height:1;
 }
 
 .conf-chart{
   width:100%;
-  height: 20px;
+  height: 18px;
   margin-top: 2px;
   overflow:visible;
 }
 
-/* โซนระบุจำนวนวัตถุ */
+/* โซนระบุจำนวนวัตถุ - ปรับปรุงให้ปุ่ม Radio ชิดขึ้นด้านบนอยู่ใต้หัวข้อพอดี */
 .specify-card {
-  padding: 12px 16px;
+  padding: 10px 12px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  justify-content: space-between;
+  gap: 8px; /* เว้นระยะห่างระหว่างหัวข้อ ปุ่ม Radio และคอนเทนต์ */
+  justify-content: flex-start; /* ดันทุกอย่างชิดบน ไม่ให้เด้งไปขอบล่างสุด */
 }
 
 .specify-title {
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   font-weight: 400;
   color: var(--muted);
 }
 
 .specify-radio-group {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-size: 0.95rem;
+  flex-direction: row;
+  gap: 16px;
+  font-size: 0.85rem;
   color: var(--text);
 }
 
 .specify-radio-label {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   cursor: pointer;
 }
 
-.specify-input-list {
+.specify-collapsible-content {
   display: flex;
   flex-direction: column;
   gap: 4px;
   margin-top: 2px;
 }
 
+.specify-input-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
 .specify-row {
   display: grid;
-  grid-template-columns: 60px 1fr 50px;
+  grid-template-columns: 52px 1fr 44px;
   align-items: center;
-  gap: 6px;
-  font-size: 0.9rem;
+  gap: 4px;
+  font-size: 0.82rem;
   color: var(--muted);
 }
 
 .specify-row input {
-  height: 28px;
-  padding: 0 6px;
-  border-radius: 6px;
+  height: 26px;
+  padding: 0 4px;
+  border-radius: 5px;
   border: 1px solid var(--border);
   background: var(--input);
   color: var(--text);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   text-align: center;
 }
 
 .btn-mini-save {
-  height: 28px;
+  height: 26px;
   background: var(--save-bg);
   color: var(--save-text);
-  border-radius: 6px;
-  font-size: 0.72rem;
+  border-radius: 5px;
+  font-size: 0.68rem;
   font-weight: 400;
   display: grid;
   place-items: center;
@@ -452,12 +458,12 @@ video.back-cam{transform:scaleX(1)}
 
 .specify-total-row {
   display: grid;
-  grid-template-columns: 60px 1fr 50px;
+  grid-template-columns: 52px 1fr 44px;
   align-items: center;
-  gap: 6px;
-  font-size: 0.95rem;
+  gap: 4px;
+  font-size: 0.88rem;
   color: var(--text);
-  padding-top: 4px;
+  padding-top: 3px;
   border-top: 1px dashed var(--border);
 }
 
@@ -470,10 +476,10 @@ video.back-cam{transform:scaleX(1)}
    Industrial Object Counter
    ======================================================== */
 .counter-card{
-  padding: clamp(8px, 1.2vh, 12px) 14px;
+  padding: clamp(6px, 1.0vh, 10px) 12px;
   display:flex;
   flex-direction:column;
-  gap: 6px;
+  gap: 4px;
   flex: 1;
   min-height: 0;
   overflow: hidden;
@@ -487,33 +493,32 @@ video.back-cam{transform:scaleX(1)}
 }
 
 .counter-title{
-  font-size: 1.0rem;
+  font-size: 0.95rem;
   font-weight: 400;
   color: var(--text);
 }
 
 .reset-btn{
-  padding: 4px 10px;
+  padding: 3px 8px;
   background: #E90000;
   color: #fff;
-  border-radius: 6px;
-  font-size: 0.75rem;
+  border-radius: 5px;
+  font-size: 0.7rem;
   font-weight: 400;
 }
 
 .counter-layout-custom {
   display: flex;
   flex-direction: column;
-  gap: clamp(4px, 1vh, 8px);
+  gap: clamp(3px, 0.8vh, 6px);
   flex: 1;
   min-height: 0;
 }
 
-/* 3 กล่องด้านบน */
 .top-three-boxes {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  gap: 6px;
   flex: 1.2;
   min-height: 0;
 }
@@ -524,12 +529,12 @@ video.back-cam{transform:scaleX(1)}
   border: 1px solid var(--c-box-border);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-radius: 10px;
-  padding: clamp(2px, 0.8vh, 6px) clamp(4px, 1vw, 8px);
+  border-radius: 8px;
+  padding: clamp(12px, 2.0vh, 16px) clamp(2px, 0.8vw, 6px) clamp(16px, 2.5vh, 22px) clamp(2px, 0.8vw, 6px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   text-align: center;
   box-shadow: 0 4px 12px rgba(0,0,0,0.03);
   min-width: 0;
@@ -541,17 +546,28 @@ video.back-cam{transform:scaleX(1)}
   content: '';
   position: absolute;
   bottom: 0;
-  left: 8px;
-  right: 8px;
-  height: 5px;
-  border-radius: 3px 3px 0 0;
+  left: 6px;
+  right: 6px;
+  height: 4px;
+  border-radius: 2px 2px 0 0;
 }
 .c-box-1::before { background-color: #10b981; }
 .c-box-2::before { background-color: #fbbf24; }
 .c-box-3::before { background-color: #f87171; }
 
+.custom-sub-teachable {
+  font-size: clamp(0.7rem, 11cqw, 0.88rem);
+  font-weight: 400;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  margin-top: clamp(6px, 1.2vh, 12px);
+}
+
 .custom-sub-val {
-  font-size: clamp(1.8rem, 32cqw, 2.6rem); 
+  font-size: clamp(1.8rem, 36cqw, 2.8rem); 
   font-weight: 400;
   color: var(--text);
   line-height: 1;
@@ -559,39 +575,39 @@ video.back-cam{transform:scaleX(1)}
 }
 
 .custom-sub-label {
-  font-size: clamp(0.85rem, 14cqw, 1.1rem); 
+  font-size: clamp(0.75rem, 12cqw, 0.92rem); 
   font-weight: 400;
   color: var(--muted);
   letter-spacing: 0.5px;
-  margin-top: 2px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
+  margin-bottom: clamp(8px, 1.5vh, 14px);
 }
 
-/* เลย์เอาต์ส่วนล่าง */
 .bottom-counter-split {
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
   flex: 1;
   min-height: 0;
 }
 
 .verification-box {
+  grid-column: span 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 4px 8px;
-  font-size: 0.88rem;
+  padding: 2px 6px;
+  font-size: 0.82rem;
   color: var(--text);
 }
 
 .ver-title {
-  font-size: 1.1rem;
+  font-size: 1.0rem;
   font-weight: 400;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .ver-title.success { color: #047857; }
@@ -600,7 +616,7 @@ video.back-cam{transform:scaleX(1)}
 .ver-list {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
   color: var(--muted);
 }
 
@@ -608,71 +624,73 @@ video.back-cam{transform:scaleX(1)}
   display: flex;
   justify-content: space-between;
   width: 100%;
-  max-width: 140px;
+  max-width: 120px;
 }
 
-/* กล่อง TOTAL COUNT ด้านล่างขวา (ขยับเลข 0 ให้เยื้องซ้ายตรงกับกล่องที่ 3 แล้ว) */
 .bottom-total-box {
+  grid-column: span 2;
   container-type: inline-size;
   background-color: var(--c-box-bg);
   border: 1px solid var(--c-box-border);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-radius: 10px;
-  padding: clamp(4px, 1vh, 8px) 16px;
+  border-radius: 8px;
+  padding: clamp(6px, 1.0vh, 10px) 12px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  text-align: center;
   flex: 1;
   min-height: 0;
   box-shadow: 0 4px 12px rgba(0,0,0,0.03);
   overflow: hidden;
+  gap: clamp(2px, 0.5vh, 4px);
 }
 
 .total-title-main {
-  font-size: clamp(1.0rem, 9cqw, 1.4rem); 
+  font-size: clamp(0.85rem, 7.5cqw, 1.15rem); 
   font-weight: 400;
-  color: var(--text);
+  color: var(--muted);
   letter-spacing: 1px;
 }
 
 .custom-total-val {
-  font-size: clamp(2.0rem, 20cqw, 3.6rem); 
+  font-size: clamp(1.8rem, 22cqw, 3.2rem); 
   font-weight: 400;
   color: var(--c-total-text);
   line-height: 1;
   letter-spacing: 2px;
-  margin-right: 42px; /* ปรับขยับเลข 0 มาทางซ้ายให้ตรงกับแนวกล่องที่ 3 พอดี */
 }
 
 /* ========================================================
    Settings Card 
    ======================================================== */
 .settings-card{
-  padding: clamp(10px, 1.5vh, 14px) 18px;
+  padding: clamp(8px, 1.2vh, 12px) 14px;
   display:flex;
   flex-direction:column;
-  gap: clamp(6px, 1vh, 10px);
+  gap: clamp(4px, 0.8vh, 8px);
   flex-shrink: 0;
 }
 
 .settings-card .field-label {
-  font-size: clamp(1.1rem, 1.8vh, 1.4rem); 
+  font-size: clamp(0.95rem, 1.5vh, 1.2rem); 
   font-weight: 400;
   color: var(--muted);
-  margin-bottom: 2px;
+  margin-bottom: 1px;
 }
 
 .settings-card input{
   width:100%;
-  height: clamp(48px, 6.5vh, 64px); 
-  padding:0 14px;
-  border-radius: 12px;
+  height: clamp(38px, 5.0vh, 52px); 
+  padding:0 10px;
+  border-radius: 10px;
   outline:none;
   background:var(--input);
   color:var(--text);
   border:1px solid var(--border);
-  font-size: clamp(1.3rem, 2.2vh, 1.7rem); 
+  font-size: clamp(1.1rem, 1.8vh, 1.4rem); 
   font-weight: 400;
 }
 
@@ -682,36 +700,36 @@ video.back-cam{transform:scaleX(1)}
 }
 
 .model-wrap{position:relative}
-.model-wrap input{padding-right:55px}
+.model-wrap input{padding-right:45px}
 
 .copy-btn{
   position:absolute;
-  right:8px;
+  right:6px;
   top:50%;
   transform:translateY(-50%);
-  width:40px;
-  height:40px;
+  width:34px;
+  height:34px;
   background:transparent;
   color:var(--muted);
   display:grid;
   place-items:center;
 }
-.copy-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2}
+.copy-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2}
 
 .two-fields{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap: 10px;
+  gap: 8px;
 }
 
 .save-btn{
   width:100%;
-  height: clamp(42px, 5.5vh, 52px); 
-  border-radius: 10px;
+  height: clamp(36px, 4.5vh, 44px); 
+  border-radius: 8px;
   background:var(--save-bg);
   color:var(--save-text);
   border:1px solid var(--save-border);
-  font-size: clamp(1.1rem, 1.8vh, 1.35rem); 
+  font-size: clamp(1.0rem, 1.5vh, 1.2rem); 
   font-weight: 400;
   display:flex;
   align-items:center;
@@ -724,7 +742,7 @@ video.back-cam{transform:scaleX(1)}
 
 <div class="app-container">
 
-  <!-- Left Column: Header + Camera View -->
+  <!-- Left Column (โซนหลักที่ 1: 65%) -->
   <section class="left-panel">
     <div class="card header">
       <div>
@@ -774,7 +792,7 @@ video.back-cam{transform:scaleX(1)}
     </div>
   </section>
 
-  <!-- Right Column: Stats, Prominent Counter & Settings -->
+  <!-- Right Column (โซนหลักที่ 2: 35%) -->
   <section class="right-panel">
     
     <div class="top-right-grid">
@@ -824,30 +842,32 @@ video.back-cam{transform:scaleX(1)}
           </label>
         </div>
 
-        <div class="specify-input-list">
-          <div class="specify-row">
-            <span>Class 1</span>
-            <input type="text" id="target-class-0" value="-" disabled>
-            <button class="btn-mini-save" onclick="saveClassTarget(0)">SAVE</button>
+        <div id="specify-content-box" class="specify-collapsible-content" style="display: none;">
+          <div class="specify-input-list">
+            <div class="specify-row">
+              <span>Class 1</span>
+              <input type="text" id="target-class-0" value="-" disabled>
+              <button class="btn-mini-save" onclick="saveClassTarget(0)">SAVE</button>
+            </div>
+            <div class="specify-row">
+              <span>Class 2</span>
+              <input type="text" id="target-class-1" value="-" disabled>
+              <button class="btn-mini-save" onclick="saveClassTarget(1)">SAVE</button>
+            </div>
+            <div class="specify-row">
+              <span>Class 3</span>
+              <input type="text" id="target-class-2" value="-" disabled>
+              <button class="btn-mini-save" onclick="saveClassTarget(2)">SAVE</button>
+            </div>
           </div>
-          <div class="specify-row">
-            <span>Class 2</span>
-            <input type="text" id="target-class-1" value="-" disabled>
-            <button class="btn-mini-save" onclick="saveClassTarget(1)">SAVE</button>
-          </div>
-          <div class="specify-row">
-            <span>Class 3</span>
-            <input type="text" id="target-class-2" value="-" disabled>
-            <button class="btn-mini-save" onclick="saveClassTarget(2)">SAVE</button>
-          </div>
-        </div>
 
-        <div class="specify-total-row">
-          <span>Total</span>
-          <div class="specify-total-val-wrap">
-            <span id="target-total-val">--</span>
+          <div class="specify-total-row">
+            <span>Total</span>
+            <div class="specify-total-val-wrap">
+              <span id="target-total-val">--</span>
+            </div>
+            <span></span>
           </div>
-          <span></span>
         </div>
       </div>
     </div>
@@ -860,30 +880,29 @@ video.back-cam{transform:scaleX(1)}
       </div>
       
       <div class="counter-layout-custom">
-        <!-- 3 กล่องด้านบน -->
         <div class="top-three-boxes" id="dynamic-class-counters">
           <div class="custom-sub-box c-box-1">
+            <div class="custom-sub-teachable" id="sub-title-0">--</div>
             <div class="custom-sub-val" id="counter-class-0">0</div>
             <div class="custom-sub-label">Class 1</div>
           </div>
           <div class="custom-sub-box c-box-2">
+            <div class="custom-sub-teachable" id="sub-title-1">--</div>
             <div class="custom-sub-val" id="counter-class-1">0</div>
             <div class="custom-sub-label">Class 2</div>
           </div>
           <div class="custom-sub-box c-box-3">
+            <div class="custom-sub-teachable" id="sub-title-2">--</div>
             <div class="custom-sub-val" id="counter-class-2">0</div>
             <div class="custom-sub-label">Class 3</div>
           </div>
         </div>
 
-        <!-- เลย์เอาต์ส่วนล่าง -->
         <div class="bottom-counter-split">
-          <!-- ฝั่งซ้าย: แสดงความสำเร็จ/ผิดพลาด -->
           <div class="verification-box" id="verification-container">
             <!-- สร้างผ่าน JavaScript -->
           </div>
 
-          <!-- ฝั่งขวา: TOTAL COUNT (ปรับเลข 0 ให้ตรงแนวกล่องที่ 3 แล้ว) -->
           <div class="bottom-total-box">
             <div class="total-title-main">TOTAL COUNT</div>
             <div class="custom-total-val" id="total-counter">0</div>
@@ -952,6 +971,14 @@ function toggleTargetMode() {
   }
 
   const isSpecify = (targetMode === "specify");
+  const contentBox = document.getElementById("specify-content-box");
+  
+  if (isSpecify) {
+    contentBox.style.display = "flex";
+  } else {
+    contentBox.style.display = "none";
+  }
+
   for (let i = 0; i < 3; i++) {
     const input = document.getElementById(`target-class-${i}`);
     input.disabled = !isSpecify;
@@ -1297,13 +1324,15 @@ function buildCounterUIBoxes() {
   container.innerHTML = "";
 
   for (let i = 0; i < 3; i++) {
-    let countVal = classCounts[classNamesList[i]] || 0;
+    let teachableName = classNamesList[i] || "--";
+    let countVal = classCounts[teachableName] || 0;
     let formattedVal = String(countVal);
     let classLabelText = `Class ${i+1}`;
 
     let box = document.createElement("div");
     box.className = `custom-sub-box c-box-${i+1}`;
     box.innerHTML = `
+      <div class="custom-sub-teachable" id="sub-title-${i}">${teachableName}</div>
       <div class="custom-sub-val" id="counter-class-${i}">${formattedVal}</div>
       <div class="custom-sub-label">${classLabelText}</div>
     `;
@@ -1361,6 +1390,10 @@ function updateCounterUI() {
     let el = document.getElementById(`counter-class-${i}`);
     if (el) {
       el.textContent = String(classCounts[name] || 0);
+    }
+    let titleEl = document.getElementById(`sub-title-${i}`);
+    if (titleEl) {
+      titleEl.textContent = name || "--";
     }
   });
 
