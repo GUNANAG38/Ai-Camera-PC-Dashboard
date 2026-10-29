@@ -174,6 +174,7 @@ button{
 }
 .theme-top svg{width:20px;height:20px}
 .test-top{font-weight: 400;font-size:0.85rem;color:var(--button-text)}
+.fullscreen-top{font-weight: 600;font-size:1.05rem;color:var(--button-text)}
 
 .theme-switch svg{display:block}
 .theme-icon-sun{display:none !important}
@@ -269,7 +270,6 @@ video.back-cam{transform:scaleX(1)}
 }
 .btn-float-switch svg{width:20px;height:20px;fill:currentColor}
 
-/* ข้อความแสดงเครดิตแทนตำแหน่งปุ่มเดิมฝั่ง PC Camera */
 .camera-footer-text {
   text-align: center;
   font-size: 0.78rem;
@@ -286,9 +286,6 @@ video.back-cam{transform:scaleX(1)}
   min-height: 0;
 }
 
-/* ========================================================
-   Summary & Specify Layout Grid
-   ======================================================== */
 .top-right-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -370,7 +367,6 @@ video.back-cam{transform:scaleX(1)}
   overflow:visible;
 }
 
-/* โซนระบุจำนวนวัตถุ */
 .specify-card {
   padding: 10px 12px;
   display: flex;
@@ -460,9 +456,6 @@ video.back-cam{transform:scaleX(1)}
   font-weight: 400;
 }
 
-/* ========================================================
-   Industrial Object Counter
-   ======================================================== */
 .counter-card{
   padding: clamp(6px, 1.0vh, 10px) 12px;
   display:flex;
@@ -544,7 +537,7 @@ video.back-cam{transform:scaleX(1)}
 .c-box-3::before { background-color: #f87171; }
 
 .custom-sub-teachable {
-  font-size: clamp(0.7rem, 11cqw, 0.88rem);
+  font-size: clamp(1.05rem, 16.5cqw, 1.32rem);
   font-weight: 400;
   color: var(--muted);
   white-space: nowrap;
@@ -625,6 +618,7 @@ video.back-cam{transform:scaleX(1)}
   width: 100%;
 }
 
+/* ปรับให้รองรับการสลับเต็มคอลัมน์ (span 3) เมื่อซ่อนกล่อง Verification */
 .bottom-total-box {
   grid-column: span 2;
   container-type: inline-size;
@@ -644,6 +638,11 @@ video.back-cam{transform:scaleX(1)}
   box-shadow: 0 4px 12px rgba(0,0,0,0.03);
   overflow: hidden;
   gap: clamp(2px, 0.5vh, 4px);
+  transition: grid-column 0.2s ease;
+}
+
+.bottom-total-box.full-width {
+  grid-column: span 3;
 }
 
 .total-title-main {
@@ -661,9 +660,6 @@ video.back-cam{transform:scaleX(1)}
   letter-spacing: 2px;
 }
 
-/* ========================================================
-   Bottom Control & Settings Section Split Layout 
-   ======================================================== */
 .bottom-control-settings-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -672,7 +668,6 @@ video.back-cam{transform:scaleX(1)}
   align-items: center;
 }
 
-/* ปุ่มกลม 2 สถานะ ขยายขนาดเพิ่มขึ้นอีก 0.5 เท่า */
 .circle-btn-container {
   grid-column: span 1;
   display: flex;
@@ -708,7 +703,6 @@ video.back-cam{transform:scaleX(1)}
   box-shadow: 0 8px 24px rgba(220, 38, 38, 0.4);
 }
 
-/* Settings Card */
 .settings-card {
   grid-column: span 2;
   padding: clamp(8px, 1.2vh, 12px) 14px;
@@ -794,6 +788,7 @@ video.back-cam{transform:scaleX(1)}
       </div>
 
       <div class="header-actions">
+        <button class="theme-top fullscreen-top" onclick="toggleFullscreen()" title="สลับเต็มจอ">F</button>
         <button class="theme-top test-top" onclick="testConnection()" title="ทดสอบการเชื่อมต่อ">Test</button>
         <button class="theme-top theme-switch" onclick="toggleTheme()" title="เปลี่ยนธีม">
           <svg class="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.7 6.7 0 0 0 9.8 9.8Z"/></svg>
@@ -935,11 +930,11 @@ video.back-cam{transform:scaleX(1)}
         </div>
 
         <div class="bottom-counter-split">
-          <div class="verification-box" id="verification-container">
+          <div class="verification-box" id="verification-container" style="display: none;">
             <!-- สร้างผ่าน JavaScript -->
           </div>
 
-          <div class="bottom-total-box">
+          <div class="bottom-total-box full-width" id="total-box-container">
             <div class="total-title-main">TOTAL COUNT</div>
             <div class="custom-total-val" id="total-counter">0</div>
           </div>
@@ -950,7 +945,7 @@ video.back-cam{transform:scaleX(1)}
     <!-- โซนล่าง: ปุ่มกลม 2 สถานะ (ซ้าย) + Settings Card (ขวา) -->
     <div class="bottom-control-settings-grid">
       
-      <!-- ปุ่มวงกลม 2 สถานะ ขนาดใหญ่ขึ้น 0.5 เท่า -->
+      <!-- ปุ่มวงกลม 2 สถานะ -->
       <div class="circle-btn-container">
         <button id="toggle-run-btn" class="btn-toggle-round" onclick="toggleRunState()">START</button>
       </div>
@@ -1010,6 +1005,18 @@ window.addEventListener('DOMContentLoaded', () => {
   updateVerificationDisplay();
 });
 
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(err => {
+      alert(`ไม่สามารถเปิดโหมดเต็มจอได้: ${err.message}`);
+    });
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  }
+}
+
 function toggleTargetMode() {
   const radios = document.getElementsByName("target_mode");
   for (let r of radios) {
@@ -1018,11 +1025,17 @@ function toggleTargetMode() {
 
   const isSpecify = (targetMode === "specify");
   const contentBox = document.getElementById("specify-content-box");
+  const verContainer = document.getElementById("verification-container");
+  const totalBox = document.getElementById("total-box-container");
   
   if (isSpecify) {
     contentBox.style.display = "flex";
+    verContainer.style.display = "flex";
+    totalBox.classList.remove("full-width");
   } else {
     contentBox.style.display = "none";
+    verContainer.style.display = "none";
+    totalBox.classList.add("full-width");
   }
 
   for (let i = 0; i < 3; i++) {
