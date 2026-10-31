@@ -602,6 +602,8 @@ video.back-cam{transform:scaleX(1)}
 }
 
 .ver-title.success { color: #047857; }
+[data-theme="dark"] .ver-title.success { color: #55e879; }
+
 .ver-title.error { color: #dc2626; }
 
 .ver-list {
@@ -613,9 +615,18 @@ video.back-cam{transform:scaleX(1)}
 }
 
 .ver-item {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 74px 12px 1fr;
+  align-items: center;
   width: 100%;
+}
+
+.ver-item span:nth-child(2) {
+  text-align: center;
+}
+
+.ver-item span:nth-child(3) {
+  text-align: left;
 }
 
 .bottom-total-box {
@@ -691,6 +702,12 @@ video.back-cam{transform:scaleX(1)}
   justify-content: center;
   transition: all 0.25s ease;
   user-select: none;
+  outline: 4px solid #047857;
+  outline-offset: 5px;
+}
+
+[data-theme="dark"] .btn-toggle-round {
+  outline: 4px solid #16a34a;
 }
 
 .btn-toggle-round:hover {
@@ -700,6 +717,8 @@ video.back-cam{transform:scaleX(1)}
 .btn-toggle-round.state-stop {
   background: #dc2626;
   box-shadow: 0 8px 24px rgba(220, 38, 38, 0.4);
+  outline: 4px solid #dc2626;
+  outline-offset: 5px;
 }
 
 .settings-card {
@@ -1103,7 +1122,7 @@ function updateVerificationDisplay() {
     let labelText = name !== "--" ? name : `Class ${i+1}`;
     
     if (target === null) {
-      classItemsHTML += `<div class="ver-item"><span>${labelText}</span><span>= --</span></div>`;
+      classItemsHTML += `<div class="ver-item"><span>${labelText}</span><span>=</span><span>&nbsp;--</span></div>`;
     } else {
       let diff = current - target;
       let absDiff = Math.abs(diff);
@@ -1111,8 +1130,8 @@ function updateVerificationDisplay() {
 
       if (diff !== 0) isOverallSuccess = false;
 
-      let signStr = diff > 0 ? `+${diff}` : `${diff}`;
-      classItemsHTML += `<div class="ver-item"><span>${labelText}</span><span>= ${signStr} ครั้ง</span></div>`;
+      let signStr = diff > 0 ? `+${diff} ครั้ง` : `${diff} ครั้ง`;
+      classItemsHTML += `<div class="ver-item"><span>${labelText}</span><span>=</span><span>&nbsp;${signStr}</span></div>`;
     }
   });
 
@@ -1123,18 +1142,16 @@ function updateVerificationDisplay() {
   let itemsHTML = "";
 
   if (isOverallSuccess) {
-    // หากขึ้น "ความสำเร็จ" แสดงเฉพาะ Error Rate = 0.0% และ Accuracy = 100.0%
-    itemsHTML += `<div class="ver-item"><span>Error Rate</span><span>= 0.0%</span></div>`;
-    itemsHTML += `<div class="ver-item"><span>Accuracy</span><span>= 100.0%</span></div>`;
+    itemsHTML += `<div class="ver-item"><span>Error Rate</span><span>=</span><span>&nbsp;0.0%</span></div>`;
+    itemsHTML += `<div class="ver-item"><span>Accuracy</span><span>=</span><span>&nbsp;100.0%</span></div>`;
   } else {
-    // หากมีความผิดพลาด แสดงรายละเอียดราย Class, TOTAL, Error Rate และ Accuracy
     let errorRate = (hasAnyTarget && totalTargetSum > 0) ? (totalErrorSum / totalTargetSum) * 100 : 0;
     let accuracyRate = Math.max(0, 100 - errorRate);
 
     itemsHTML += classItemsHTML;
-    itemsHTML += `<div class="ver-item" style="font-weight:400; margin-top:2px; border-top:1px solid var(--border); padding-top:2px;"><span>TOTAL</span><span>= ${totalErrorSum} ครั้ง</span></div>`;
-    itemsHTML += `<div class="ver-item"><span>Error Rate</span><span>= ${errorRate.toFixed(1)}%</span></div>`;
-    itemsHTML += `<div class="ver-item"><span>Accuracy</span><span>= ${accuracyRate.toFixed(1)}%</span></div>`;
+    itemsHTML += `<div class="ver-item" style="font-weight:400; margin-top:2px; border-top:1px solid var(--border); padding-top:2px;"><span>TOTAL</span><span>=</span><span>&nbsp;${totalErrorSum} ครั้ง</span></div>`;
+    itemsHTML += `<div class="ver-item"><span>Error Rate</span><span>=</span><span>&nbsp;${errorRate.toFixed(1)}%</span></div>`;
+    itemsHTML += `<div class="ver-item"><span>Accuracy</span><span>=</span><span>&nbsp;${accuracyRate.toFixed(1)}%</span></div>`;
   }
 
   const titleText = isOverallSuccess ? "ความสำเร็จ" : "ความผิดพลาด";
