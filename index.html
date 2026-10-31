@@ -1094,7 +1094,7 @@ function updateVerificationDisplay() {
   });
 
   let isOverallSuccess = true;
-  let itemsHTML = "";
+  let classItemsHTML = "";
   let totalErrorSum = 0;
 
   classNamesList.forEach((name, i) => {
@@ -1103,7 +1103,7 @@ function updateVerificationDisplay() {
     let labelText = name !== "--" ? name : `Class ${i+1}`;
     
     if (target === null) {
-      itemsHTML += `<div class="ver-item"><span>${labelText}</span><span>= --</span></div>`;
+      classItemsHTML += `<div class="ver-item"><span>${labelText}</span><span>= --</span></div>`;
     } else {
       let diff = current - target;
       let absDiff = Math.abs(diff);
@@ -1112,21 +1112,29 @@ function updateVerificationDisplay() {
       if (diff !== 0) isOverallSuccess = false;
 
       let signStr = diff > 0 ? `+${diff}` : `${diff}`;
-      itemsHTML += `<div class="ver-item"><span>${labelText}</span><span>= ${signStr} ครั้ง</span></div>`;
+      classItemsHTML += `<div class="ver-item"><span>${labelText}</span><span>= ${signStr} ครั้ง</span></div>`;
     }
   });
 
-  if (hasAnyTarget) {
-    if (totalCount !== totalTargetSum) isOverallSuccess = false;
+  if (hasAnyTarget && totalCount !== totalTargetSum) {
+    isOverallSuccess = false;
+  }
 
-    let errorRate = totalTargetSum > 0 ? (totalErrorSum / totalTargetSum) * 100 : 0;
+  let itemsHTML = "";
+
+  if (isOverallSuccess) {
+    // หากขึ้น "ความสำเร็จ" แสดงเฉพาะ Error Rate = 0.0% และ Accuracy = 100.0%
+    itemsHTML += `<div class="ver-item"><span>Error Rate</span><span>= 0.0%</span></div>`;
+    itemsHTML += `<div class="ver-item"><span>Accuracy</span><span>= 100.0%</span></div>`;
+  } else {
+    // หากมีความผิดพลาด แสดงรายละเอียดราย Class, TOTAL, Error Rate และ Accuracy
+    let errorRate = (hasAnyTarget && totalTargetSum > 0) ? (totalErrorSum / totalTargetSum) * 100 : 0;
     let accuracyRate = Math.max(0, 100 - errorRate);
 
+    itemsHTML += classItemsHTML;
     itemsHTML += `<div class="ver-item" style="font-weight:400; margin-top:2px; border-top:1px solid var(--border); padding-top:2px;"><span>TOTAL</span><span>= ${totalErrorSum} ครั้ง</span></div>`;
     itemsHTML += `<div class="ver-item"><span>Error Rate</span><span>= ${errorRate.toFixed(1)}%</span></div>`;
     itemsHTML += `<div class="ver-item"><span>Accuracy</span><span>= ${accuracyRate.toFixed(1)}%</span></div>`;
-  } else {
-    itemsHTML += `<div class="ver-item" style="font-weight:400; margin-top:2px; border-top:1px solid var(--border); padding-top:2px;"><span>TOTAL</span><span>= --</span></div>`;
   }
 
   const titleText = isOverallSuccess ? "ความสำเร็จ" : "ความผิดพลาด";
