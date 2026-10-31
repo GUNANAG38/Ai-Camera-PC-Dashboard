@@ -1,11 +1,11 @@
 {
-  "name": "AI EduTech Dashboard",
+  "name": "AI EduTech Industry Dashboard",
   "short_name": "AI EduTech",
   "description": "Teachable Machine | Smart Small Scale Industry | IoT Education Platform",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#030508",
-  "theme_color": "#047857",
+  "theme_color": "#030508",
   "icons": [
     {
       "src": "icon-192.png",
