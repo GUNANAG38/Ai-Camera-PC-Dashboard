@@ -582,7 +582,7 @@ video.back-cam{transform:scaleX(1)}
   justify-content: center;
   align-items: center;
   padding: 4px 8px;
-  font-size: 1.0rem;
+  font-size: 0.9rem;
   color: var(--text);
   width: 100%;
 }
@@ -592,7 +592,7 @@ video.back-cam{transform:scaleX(1)}
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
-  max-width: 150px;
+  max-width: 160px;
 }
 
 .ver-title {
@@ -618,7 +618,6 @@ video.back-cam{transform:scaleX(1)}
   width: 100%;
 }
 
-/* ปรับให้รองรับการสลับเต็มคอลัมน์ (span 3) เมื่อซ่อนกล่อง Verification */
 .bottom-total-box {
   grid-column: span 2;
   container-type: inline-size;
@@ -799,7 +798,7 @@ video.back-cam{transform:scaleX(1)}
 
     <div class="card camera-card">
       <div class="camera-heading">
-        <span class="camera-title">Camera</span>
+        <span class="camera-title">PC Camera</span>
         <span class="topic" id="current-group-label">Topic : PTL-School/group1</span>
       </div>
 
@@ -860,7 +859,7 @@ video.back-cam{transform:scaleX(1)}
 
       <!-- โซนระบุจำนวนวัตถุ -->
       <div class="card specify-card">
-        <div class="specify-title">จำนวนวัตถุ</div>
+        <div class="specify-title">ระบุจำนวนวัตถุ</div>
         
         <div class="specify-radio-group">
           <label class="specify-radio-label">
@@ -1096,6 +1095,7 @@ function updateVerificationDisplay() {
 
   let isOverallSuccess = true;
   let itemsHTML = "";
+  let totalErrorSum = 0;
 
   classNamesList.forEach((name, i) => {
     const target = targetCounts[i];
@@ -1103,22 +1103,31 @@ function updateVerificationDisplay() {
     let labelText = name !== "--" ? name : `Class ${i+1}`;
     
     if (target === null) {
-      itemsHTML += `<div class="ver-item"><span>${labelText}</span><span>= --%</span></div>`;
+      itemsHTML += `<div class="ver-item"><span>${labelText}</span><span>= --</span></div>`;
     } else {
-      let pct = target > 0 ? Math.round((current / target) * 100) : (current === 0 ? 100 : 0);
-      if (current !== target) isOverallSuccess = false;
-      itemsHTML += `<div class="ver-item"><span>${labelText}</span><span>= ${pct}%</span></div>`;
+      let diff = current - target;
+      let absDiff = Math.abs(diff);
+      totalErrorSum += absDiff;
+
+      if (diff !== 0) isOverallSuccess = false;
+
+      let signStr = diff > 0 ? `+${diff}` : `${diff}`;
+      itemsHTML += `<div class="ver-item"><span>${labelText}</span><span>= ${signStr} ครั้ง</span></div>`;
     }
   });
 
-  let totalPctText = "--%";
   if (hasAnyTarget) {
-    let totalPct = totalTargetSum > 0 ? Math.round((totalCount / totalTargetSum) * 100) : (totalCount === 0 ? 100 : 0);
-    totalPctText = `${totalPct}%`;
     if (totalCount !== totalTargetSum) isOverallSuccess = false;
-  }
 
-  itemsHTML += `<div class="ver-item" style="font-weight:400; margin-top:2px; border-top:1px solid var(--border); padding-top:2px;"><span>TOTAL</span><span>= ${totalPctText}</span></div>`;
+    let errorRate = totalTargetSum > 0 ? (totalErrorSum / totalTargetSum) * 100 : 0;
+    let accuracyRate = Math.max(0, 100 - errorRate);
+
+    itemsHTML += `<div class="ver-item" style="font-weight:400; margin-top:2px; border-top:1px solid var(--border); padding-top:2px;"><span>TOTAL</span><span>= ${totalErrorSum} ครั้ง</span></div>`;
+    itemsHTML += `<div class="ver-item"><span>Error Rate</span><span>= ${errorRate.toFixed(1)}%</span></div>`;
+    itemsHTML += `<div class="ver-item"><span>Accuracy</span><span>= ${accuracyRate.toFixed(1)}%</span></div>`;
+  } else {
+    itemsHTML += `<div class="ver-item" style="font-weight:400; margin-top:2px; border-top:1px solid var(--border); padding-top:2px;"><span>TOTAL</span><span>= --</span></div>`;
+  }
 
   const titleText = isOverallSuccess ? "ความสำเร็จ" : "ความผิดพลาด";
   const titleClass = isOverallSuccess ? "success" : "error";
