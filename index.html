@@ -140,12 +140,13 @@ button{
   flex-shrink: 0;
 }
 
+/* ปรับสีฟอนต์หัวข้อหลักให้เปลี่ยนตามธีม (สว่าง=ดำ / มืด=ขาว) */
 .brand-title{
   font-size: 2.2rem;
   font-weight: 400;
   line-height:1;
   letter-spacing:-1px;
-  color:var(--green-strong);
+  color:var(--text);
 }
 
 .brand-subtitle{
@@ -678,7 +679,6 @@ video.back-cam{transform:scaleX(1)}
   align-items: stretch;
 }
 
-/* จุดแก้ที่ 1: เพิ่มกรอบการ์ดโปร่งใสให้โซนปุ่ม START */
 .circle-btn-container {
   grid-column: span 1;
   display: flex;
@@ -716,7 +716,6 @@ video.back-cam{transform:scaleX(1)}
   transform: scale(1.03);
 }
 
-/* จุดแก้ที่ 2: เพิ่มสไตล์ปุ่มสถานะสีเหลือง (WAIT) */
 .btn-toggle-round.state-wait {
   background: #d97706;
   box-shadow: 0 8px 24px rgba(217, 119, 6, 0.4);
@@ -781,14 +780,12 @@ video.back-cam{transform:scaleX(1)}
 }
 .copy-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; }
 
-/* จุดแก้ที่ 3: ปรับขนาดช่องกรอก School ID และ Name ID เท่ากัน 50:50 */
 .two-fields {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
 }
 
-/* จุดแก้ที่ 4: ปรับสมดุลปุ่ม SAVE */
 .save-btn {
   width: 100%;
   height: clamp(36px, 4.5vh, 44px); 
@@ -1410,7 +1407,6 @@ async function toggleRunState() {
     }
 
     try {
-      /* ปรับเป็นปุ่มสีเหลืองและข้อความ WAIT ในช่วงโหลดโมเดล */
       btn.textContent = "WAIT";
       btn.classList.add("state-wait");
 
@@ -1425,7 +1421,6 @@ async function toggleRunState() {
 
       running = true;
 
-      /* ปรับเป็นปุ่มสีแดงและข้อความ STOP เมื่อโหลดสำเร็จ */
       btn.textContent = "STOP";
       btn.classList.remove("state-wait");
       btn.classList.add("state-stop");
