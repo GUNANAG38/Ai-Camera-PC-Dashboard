@@ -1,7 +1,7 @@
 {
   "name": "AI EduTechLAB 2026",
   "short_name": "AI EduTechLAB",
-  "description": "Teachable Machine | Smart Small Scale Industry | IoT Education Platform",
+  "description": "AI-Based Object Counting System",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#030508",
