@@ -1397,7 +1397,7 @@ async function toggleRunState() {
     }
 
     try {
-      btn.textContent = "WAIT...";
+      btn.textContent = "WAIT";
       const MODEL_URL = `https://teachablemachine.withgoogle.com/models/${savedId}/`;
       model = await tmImage.load(MODEL_URL + "model.json", MODEL_URL + "metadata.json");
 
