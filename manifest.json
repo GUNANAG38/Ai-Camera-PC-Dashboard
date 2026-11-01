@@ -1,7 +1,7 @@
 {
-  "name": "AI EduTechLAB 2026",
-  "short_name": "AI EduTechLAB",
-  "description": "AI-Based Object Counting System",
+  "name": "AI GELAB",
+  "short_name": "AI GELAB",
+  "description": "Electronics and Automation for Education By GelectronLAB",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#030508",
