@@ -675,15 +675,17 @@ video.back-cam{transform:scaleX(1)}
   grid-template-columns: repeat(3, 1fr);
   gap: 6px;
   flex-shrink: 0;
-  align-items: center;
+  align-items: stretch;
 }
 
+/* จุดแก้ที่ 1: เพิ่มกรอบการ์ดโปร่งใสให้โซนปุ่ม START */
 .circle-btn-container {
   grid-column: span 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2px;
+  padding: clamp(8px, 1.2vh, 12px);
+  height: 100%;
 }
 
 .btn-toggle-round {
@@ -712,6 +714,14 @@ video.back-cam{transform:scaleX(1)}
 
 .btn-toggle-round:hover {
   transform: scale(1.03);
+}
+
+/* จุดแก้ที่ 2: เพิ่มสไตล์ปุ่มสถานะสีเหลือง (WAIT) */
+.btn-toggle-round.state-wait {
+  background: #d97706;
+  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.4);
+  outline: 4px solid #d97706;
+  outline-offset: 5px;
 }
 
 .btn-toggle-round.state-stop {
@@ -771,12 +781,14 @@ video.back-cam{transform:scaleX(1)}
 }
 .copy-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; }
 
+/* จุดแก้ที่ 3: ปรับขนาดช่องกรอก School ID และ Name ID เท่ากัน 50:50 */
 .two-fields {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
 }
 
+/* จุดแก้ที่ 4: ปรับสมดุลปุ่ม SAVE */
 .save-btn {
   width: 100%;
   height: clamp(36px, 4.5vh, 44px); 
@@ -789,6 +801,7 @@ video.back-cam{transform:scaleX(1)}
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: auto;
 }
 </style>
 </head>
@@ -960,11 +973,11 @@ video.back-cam{transform:scaleX(1)}
       </div>
     </div>
 
-    <!-- โซนล่าง: ปุ่มกลม 2 สถานะ (ซ้าย) + Settings Card (ขวา) -->
+    <!-- โซนล่าง: ปุ่มกลม 3 สถานะ (ซ้ายการ์ดโปร่งใส) + Settings Card (ขวา) -->
     <div class="bottom-control-settings-grid">
       
-      <!-- ปุ่มวงกลม 2 สถานะ -->
-      <div class="circle-btn-container">
+      <!-- ปุ่มวงกลม 3 สถานะในการ์ดโปร่งใส -->
+      <div class="card circle-btn-container">
         <button id="toggle-run-btn" class="btn-toggle-round" onclick="toggleRunState()">START</button>
       </div>
 
@@ -1397,7 +1410,10 @@ async function toggleRunState() {
     }
 
     try {
+      /* ปรับเป็นปุ่มสีเหลืองและข้อความ WAIT ในช่วงโหลดโมเดล */
       btn.textContent = "WAIT";
+      btn.classList.add("state-wait");
+
       const MODEL_URL = `https://teachablemachine.withgoogle.com/models/${savedId}/`;
       model = await tmImage.load(MODEL_URL + "model.json", MODEL_URL + "metadata.json");
 
@@ -1408,18 +1424,21 @@ async function toggleRunState() {
       updateVerificationDisplay();
 
       running = true;
+
+      /* ปรับเป็นปุ่มสีแดงและข้อความ STOP เมื่อโหลดสำเร็จ */
       btn.textContent = "STOP";
+      btn.classList.remove("state-wait");
       btn.classList.add("state-stop");
       loop();
     } catch(e) {
       alert("โหลดโมเดลไม่สำเร็จ: " + e.message);
       btn.textContent = "START";
-      btn.classList.remove("state-stop");
+      btn.classList.remove("state-wait", "state-stop");
     }
   } else {
     running = false;
     btn.textContent = "START";
-    btn.classList.remove("state-stop");
+    btn.classList.remove("state-wait", "state-stop");
     if (window.currentStream) {
       window.currentStream.getTracks().forEach(track => track.stop());
       window.currentStream = null;
